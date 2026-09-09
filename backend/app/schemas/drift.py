@@ -27,7 +27,9 @@ class DriftRequest(BaseModel):
 class DriftTimestep(BaseModel):
     timestamp: str = Field(..., description="ISO-8601 UTC")
     centroid: LatLon
-    polygon: str = Field(..., description="SVG path or WKT of the slick outline at this timestep")
+    polygon: Optional[str] = Field(
+        None, description="SVG path or WKT of the slick outline at this timestep, if available"
+    )
     uncertainty_radius_km: Optional[float] = None
 
 
