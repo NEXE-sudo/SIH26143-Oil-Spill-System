@@ -1,0 +1,14 @@
+# Drift hindcast/forecast parameters.
+# Read by backend/app/services/drift.py (PyGNOME) — do not hard-code these in code.
+
+duration_hours: 24
+timestep_minutes: 15
+
+# Forcing data sources.
+wind_source: "ERA5 (Copernicus CDS, reanalysis-era5-single-levels)"
+current_source: "Copernicus Marine, cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i"
+
+# See scripts/fetch_forcing_data.py and scripts/run_pygnome_drift.py for the
+# real-data demo pipeline (PyGNOME, run outside the FastAPI app). Any spill
+# without a cached run under backend/data/drift_runs/ falls back to the
+# synthetic model in app/services/drift.py.
