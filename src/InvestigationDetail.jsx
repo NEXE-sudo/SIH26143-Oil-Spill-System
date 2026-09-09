@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { driftHindcast } from "./lib/api.js";
 
 // ---------------------------------------------------------------------------
 // Investigation detail — the map + evidence dashboard, opened from the
@@ -17,7 +18,46 @@ const LAYERS = [
   { id: "tracks", label: "Vessel tracks", default: true },
   { id: "wind", label: "Wind vectors", default: false },
   { id: "current", label: "Ocean currents", default: false },
+  { id: "drift", label: "Drift hindcast", default: true },
 ];
+
+// The spill polygon / vessel tracks are hand-authored SVG-space art, not
+// derived from real lat/lon — they're sized to sit nicely in the 400x300
+// map regardless of the investigation's real-world location. To place
+// anything with a *real* lat/lon (source estimate, drift track) on the
+// same map, we anchor a local projection at the spill's own centroid: the
+// spill's real lat/lon centroid maps to its polygon's SVG centroid, and
+// everything else is placed by real-world offset (km) from there, via an
+// equirectangular approximation (accurate enough at this scale) times a
+// fixed px-per-km zoom.
+const KM_PER_DEG_LAT = 111.0;
+const PX_PER_KM = 3.2; // tuned so a ~24h drift track stays on-map
+
+function polygonCentroid(pathD) {
+  const nums = (pathD.match(/-?[\d.]+/g) || []).map(Number);
+  let sx = 0,
+    sy = 0,
+    n = 0;
+  for (let i = 0; i + 1 < nums.length; i += 2) {
+    sx += nums[i];
+    sy += nums[i + 1];
+    n++;
+  }
+  return n > 0 ? { x: sx / n, y: sy / n } : { x: 200, y: 150 };
+}
+
+function makeMapProjection(inv) {
+  const anchor = polygonCentroid(inv.spill.polygon);
+  const lat0 = inv.spill.centroid.lat;
+  const lon0 = inv.spill.centroid.lon;
+  const kmPerDegLon = KM_PER_DEG_LAT * Math.cos((lat0 * Math.PI) / 180);
+
+  return function toMapXY(lat, lon) {
+    const dxKm = (lon - lon0) * kmPerDegLon;
+    const dyKm = (lat - lat0) * KM_PER_DEG_LAT;
+    return { x: anchor.x + dxKm * PX_PER_KM, y: anchor.y - dyKm * PX_PER_KM };
+  };
+}
 
 function fmtUTC(iso) {
   const d = new Date(iso);
@@ -45,10 +85,35 @@ export default function InvestigationDetail({ investigation, onClose }) {
     Object.fromEntries(LAYERS.map((l) => [l.id, l.default]))
   );
   const [selectedVessel, setSelectedVessel] = useState(inv.vessels[0]?.mmsi ?? null);
+  const [drift, setDrift] = useState(null); // DriftHindcastResponse | null
+  const [driftError, setDriftError] = useState(null);
 
   function toggleLayer(id) {
     setLayers((prev) => ({ ...prev, [id]: !prev[id] }));
   }
+
+  useEffect(() => {
+    let cancelled = false;
+    const spillId = "SPL-" + inv.id.replace(/^INV-/, "");
+
+    driftHindcast({ spill_id: spillId })
+      .then((res) => {
+        if (!cancelled) {
+          setDrift(res);
+          setDriftError(null);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          console.warn("Drift hindcast unavailable:", err.message);
+          setDriftError(err.message);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [inv.id]);
 
   const activeVessel = inv.vessels.find((v) => v.mmsi === selectedVessel) || null;
   const topVessel = inv.vessels[0];
@@ -65,12 +130,15 @@ export default function InvestigationDetail({ investigation, onClose }) {
           toggleLayer={toggleLayer}
           selectedVessel={selectedVessel}
           setSelectedVessel={setSelectedVessel}
+          drift={drift}
         />
         <EvidenceRail
           inv={inv}
           activeVessel={activeVessel}
           selectedVessel={selectedVessel}
           setSelectedVessel={setSelectedVessel}
+          drift={drift}
+          driftError={driftError}
         />
       </div>
 
@@ -179,7 +247,19 @@ function KeyFindings({ inv, topVessel }) {
 
 // ---------------------------------------------------------------------------
 
-function MapPanel({ inv, layers, toggleLayer, selectedVessel, setSelectedVessel }) {
+function MapPanel({ inv, layers, toggleLayer, selectedVessel, setSelectedVessel, drift }) {
+  const toMapXY = makeMapProjection(inv);
+
+  const driftPath =
+    drift && drift.track.length > 1
+      ? "M " +
+        drift.track
+          .map((t) => {
+            const { x, y } = toMapXY(t.centroid.lat, t.centroid.lon);
+            return `${x.toFixed(1)},${y.toFixed(1)}`;
+          })
+          .join(" L ")
+      : null;
   return (
     <section className="map-panel">
       <div className="map-frame">
@@ -227,25 +307,36 @@ function MapPanel({ inv, layers, toggleLayer, selectedVessel, setSelectedVessel 
             </g>
           )}
 
-          {layers.source && (
-            <ellipse
-              cx={80 + inv.source.lon * 4}
-              cy={40 + (14 - inv.source.lat) * 90}
-              rx="46"
-              ry="34"
-              fill="url(#srcGlow)"
+          {layers.source &&
+            (() => {
+              const { x, y } = toMapXY(inv.source.lat, inv.source.lon);
+              return <ellipse cx={x} cy={y} rx="46" ry="34" fill="url(#srcGlow)" />;
+            })()}
+          {layers.source &&
+            (() => {
+              const { x, y } = toMapXY(inv.source.lat, inv.source.lon);
+              return <circle cx={x} cy={y} r="3" fill="var(--amber)" stroke="#0a0e14" strokeWidth="1" />;
+            })()}
+
+          {layers.drift && driftPath && (
+            <path
+              d={driftPath}
+              fill="none"
+              stroke="var(--amber)"
+              strokeWidth="1.4"
+              strokeDasharray="1 3"
+              opacity="0.85"
             />
           )}
-          {layers.source && (
-            <circle
-              cx={80 + inv.source.lon * 4}
-              cy={40 + (14 - inv.source.lat) * 90}
-              r="3"
-              fill="var(--amber)"
-              stroke="#0a0e14"
-              strokeWidth="1"
-            />
-          )}
+          {layers.drift &&
+            drift &&
+            drift.track.length > 1 &&
+            (() => {
+              const { x, y } = toMapXY(drift.track[0].centroid.lat, drift.track[0].centroid.lon);
+              return (
+                <circle cx={x} cy={y} r="2.5" fill="var(--amber)" stroke="#0a0e14" strokeWidth="0.75" />
+              );
+            })()}
 
           {layers.tracks &&
             inv.vessels.map((v) => (
@@ -262,9 +353,8 @@ function MapPanel({ inv, layers, toggleLayer, selectedVessel, setSelectedVessel 
 
           {layers.ais &&
             inv.vessels.map((v) => {
-              const end = v.track.split(" ").slice(-2);
-              const x = parseFloat(end[0]);
-              const y = parseFloat(end[1]);
+              const lastPoint = v.track.trim().split(" ").pop(); // e.g. "210,140"
+              const [x, y] = lastPoint.split(",").map(Number);
               return (
                 <g
                   key={v.mmsi}
@@ -328,7 +418,8 @@ function LayerToggles({ layers, toggleLayer }) {
 
 // ---------------------------------------------------------------------------
 
-function EvidenceRail({ inv, activeVessel, selectedVessel, setSelectedVessel }) {
+function EvidenceRail({ inv, activeVessel, selectedVessel, setSelectedVessel, drift, driftError }) {
+  const source = drift ? drift.source_estimate : inv.source;
   return (
     <aside className="rail">
       <RailSection title="Detection">
@@ -347,16 +438,17 @@ function EvidenceRail({ inv, activeVessel, selectedVessel, setSelectedVessel }) 
 
       <RailSection title="Source estimation">
         <div className="coord-line coord-line-lg">
-          {inv.source.lat.toFixed(2)}°N, {inv.source.lon.toFixed(2)}°E
+          {source.lat.toFixed(2)}°N, {source.lon.toFixed(2)}°E
         </div>
         <div className="source-window">
-          <span>{fmtUTC(inv.source.window_start)}</span>
+          <span>{fmtUTC(source.window_start)}</span>
           <span className="window-bar" />
-          <span>{fmtUTC(inv.source.window_end)}</span>
+          <span>{fmtUTC(source.window_end)}</span>
         </div>
         <p className="hint-text">
           Estimated from a backward drift hindcast using wind and current forcing. Treated
           as a probability region, not a single point.
+          {driftError && " (live hindcast unavailable — showing last known estimate.)"}
         </p>
       </RailSection>
 
