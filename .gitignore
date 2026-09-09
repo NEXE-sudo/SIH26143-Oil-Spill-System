@@ -40,3 +40,10 @@ coverage/
 
 # Local config
 *.local
+
+# Python / backend
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
