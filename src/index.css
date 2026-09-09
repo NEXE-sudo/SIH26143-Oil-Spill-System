@@ -988,18 +988,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  overflow: hidden;
-}
-
-.auth-backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.auth-backdrop-svg {
-  width: 100%;
-  height: 100%;
+  overflow-y: auto;
 }
 
 .auth-card {
@@ -1012,6 +1001,18 @@ button {
   border-radius: 14px;
   padding: 28px 26px 26px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  margin: 40px 0;
+}
+
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.auth-backdrop-svg {
+  width: 100%;
+  height: 100%;
 }
 
 .auth-brand {
