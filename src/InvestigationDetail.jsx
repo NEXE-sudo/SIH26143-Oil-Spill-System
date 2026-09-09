@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { driftHindcast } from "./lib/api.js";
+import { driftHindcast, getAttribution, getReport, getSpill, getVessel } from "./lib/api.js";
 
 // ---------------------------------------------------------------------------
 // Investigation detail — the map + evidence dashboard, opened from the
@@ -84,9 +84,11 @@ export default function InvestigationDetail({ investigation, onClose }) {
   const [layers, setLayers] = useState(
     Object.fromEntries(LAYERS.map((l) => [l.id, l.default]))
   );
-  const [selectedVessel, setSelectedVessel] = useState(inv.vessels[0]?.mmsi ?? null);
   const [drift, setDrift] = useState(null); // DriftHindcastResponse | null
   const [driftError, setDriftError] = useState(null);
+  const [spill, setSpill] = useState(inv.spill); // SpillGeometry, replaced once /api/spills/{id} resolves
+  const [vessels, setVessels] = useState(inv.vessels); // VesselCandidate[], replaced once attribution resolves
+  const [selectedVessel, setSelectedVessel] = useState(inv.vessels[0]?.mmsi ?? null);
 
   function toggleLayer(id) {
     setLayers((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -110,22 +112,43 @@ export default function InvestigationDetail({ investigation, onClose }) {
         }
       });
 
+    getSpill(spillId)
+      .then((res) => {
+        if (!cancelled) setSpill(res.spill);
+      })
+      .catch((err) => {
+        console.warn("Spill detail unavailable, using embedded record:", err.message);
+      });
+
+    getAttribution(inv.id)
+      .then((res) => {
+        if (!cancelled) setVessels(res.ranked_vessels);
+      })
+      .catch((err) => {
+        console.warn("Attribution unavailable, using embedded candidates:", err.message);
+      });
+
     return () => {
       cancelled = true;
     };
   }, [inv.id]);
 
-  const activeVessel = inv.vessels.find((v) => v.mmsi === selectedVessel) || null;
-  const topVessel = inv.vessels[0];
+  // Keep the rest of the tree reading `inv.spill` / `inv.vessels` unchanged —
+  // this just swaps in live values once each fetch resolves, embedded mock
+  // data as the fallback/initial render.
+  const liveInv = { ...inv, spill, vessels };
+
+  const activeVessel = vessels.find((v) => v.mmsi === selectedVessel) || null;
+  const topVessel = vessels[0];
 
   return (
     <div className="shell detail-shell">
-      <TopBar inv={inv} onClose={onClose} />
-      <KeyFindings inv={inv} topVessel={topVessel} />
+      <TopBar inv={liveInv} onClose={onClose} />
+      <KeyFindings inv={liveInv} topVessel={topVessel} />
 
       <div className="main">
         <MapPanel
-          inv={inv}
+          inv={liveInv}
           layers={layers}
           toggleLayer={toggleLayer}
           selectedVessel={selectedVessel}
@@ -133,7 +156,7 @@ export default function InvestigationDetail({ investigation, onClose }) {
           drift={drift}
         />
         <EvidenceRail
-          inv={inv}
+          inv={liveInv}
           activeVessel={activeVessel}
           selectedVessel={selectedVessel}
           setSelectedVessel={setSelectedVessel}
@@ -142,7 +165,7 @@ export default function InvestigationDetail({ investigation, onClose }) {
         />
       </div>
 
-      <StatusBar inv={inv} />
+      <StatusBar inv={liveInv} />
     </div>
   );
 }
@@ -150,6 +173,18 @@ export default function InvestigationDetail({ investigation, onClose }) {
 // ---------------------------------------------------------------------------
 
 function TopBar({ inv, onClose }) {
+  const [reportOpen, setReportOpen] = useState(false);
+  const [report, setReport] = useState(null);
+  const [reportError, setReportError] = useState(null);
+
+  function handleViewReport() {
+    setReportOpen(true);
+    if (report || reportError) return; // already fetched for this vessel session
+    getReport(inv.id)
+      .then((res) => setReport(res))
+      .catch((err) => setReportError(err.message));
+  }
+
   return (
     <header className="topbar">
       <button className="btn-back" onClick={onClose} aria-label="Back to reports">
@@ -194,7 +229,39 @@ function TopBar({ inv, onClose }) {
         <span>{fmtDate(inv.satellite.timestamp)}</span>
         <span className="dot" />
         <span>{fmtUTC(inv.satellite.timestamp)}</span>
+        <span className="dot" />
+        <button className="btn-report" onClick={handleViewReport}>
+          View report
+        </button>
       </div>
+
+      {reportOpen && (
+        <div className="report-popover" role="dialog" aria-label="Investigation report">
+          <div className="report-popover-head">
+            <span>Report — {inv.id}</span>
+            <button onClick={() => setReportOpen(false)} aria-label="Close">
+              ×
+            </button>
+          </div>
+          {reportError && <p className="hint-text">Report unavailable: {reportError}</p>}
+          {!reportError && !report && <p className="hint-text">Loading report…</p>}
+          {report && (
+            <div className="report-popover-body">
+              <p>
+                Status <strong>{report.status}</strong> · lodged {fmtDateTime(report.lodged_at)}
+              </p>
+              <p>
+                Spill centroid {report.spill.centroid.lat.toFixed(3)}°N,{" "}
+                {report.spill.centroid.lon.toFixed(3)}°E · {report.spill.area_km2.toFixed(1)} km²
+              </p>
+              <p>
+                Top suspect {report.vessels[0]?.name ?? "—"} (
+                {((report.vessels[0]?.final_score ?? 0) * 100).toFixed(0)}% confidence)
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }
@@ -419,6 +486,27 @@ function LayerToggles({ layers, toggleLayer }) {
 // ---------------------------------------------------------------------------
 
 function EvidenceRail({ inv, activeVessel, selectedVessel, setSelectedVessel, drift, driftError }) {
+  const [vesselHistory, setVesselHistory] = useState(null); // VesselDetailResponse | null
+
+  useEffect(() => {
+    if (!selectedVessel) {
+      setVesselHistory(null);
+      return;
+    }
+    let cancelled = false;
+    getVessel(selectedVessel)
+      .then((res) => {
+        if (!cancelled) setVesselHistory(res);
+      })
+      .catch((err) => {
+        console.warn("Vessel history unavailable:", err.message);
+        if (!cancelled) setVesselHistory(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedVessel]);
+
   const source = drift ? drift.source_estimate : inv.source;
   return (
     <aside className="rail">
@@ -504,6 +592,14 @@ function EvidenceRail({ inv, activeVessel, selectedVessel, setSelectedVessel, dr
               <span className="id-label">Vessel type</span>
               <span className="id-value">{activeVessel.vessel_type || "Unknown"}</span>
             </div>
+            {vesselHistory && vesselHistory.involved_in.length > 1 && (
+              <div className="id-row">
+                <span className="id-label">Also flagged in</span>
+                <span className="id-value">
+                  {vesselHistory.involved_in.filter((id) => id !== inv.id).join(", ")}
+                </span>
+              </div>
+            )}
           </div>
         </RailSection>
       )}
