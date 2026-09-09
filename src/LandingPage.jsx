@@ -25,7 +25,7 @@ function scoreColor(v) {
   return "var(--muted-2)";
 }
 
-export default function LandingPage({ reports, onOpenReport }) {
+export default function LandingPage({ reports, onOpenReport, session, onSignOut }) {
   const [filter, setFilter] = useState("all");
 
   const recent = useMemo(() => reports.filter((r) => withinDays(r.lodged_at, 31)), [reports]);
@@ -63,6 +63,15 @@ export default function LandingPage({ reports, onOpenReport }) {
             <div className="brand-sub">SIH26143 · NTRO investigation console</div>
           </div>
         </div>
+
+        {session && (
+          <div className="landing-session">
+            <span className="session-user">{session.username}</span>
+            <button className="btn-signout" onClick={onSignOut}>
+              Sign out
+            </button>
+          </div>
+        )}
       </header>
 
       <main className="landing-main">
