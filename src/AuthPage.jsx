@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-
-// ---------------------------------------------------------------------------
-// Auth page: username + password only, nothing else (no email, no OAuth,
-// no 2FA). Toggles between sign in and sign up. This is a front-end mock —
-// "accounts" live in memory for the session via the users map passed in.
-// Wire onAuthenticated up to a real backend later (e.g. POST /api/auth/login,
-// POST /api/auth/signup).
-// ---------------------------------------------------------------------------
+import React, { useState, useRef } from "react";
+import { useAuth } from "./context/AuthContext.jsx";
 
 function validate(username, password, mode) {
   const errors = {};
@@ -26,6 +19,8 @@ function validate(username, password, mode) {
 }
 
 export default function AuthPage({ onAuthenticated }) {
+  const { login } = useAuth();
+  
   const [mode, setMode] = useState("signin"); // "signin" | "signup"
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -35,9 +30,8 @@ export default function AuthPage({ onAuthenticated }) {
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // In-memory "database" for the mock signup flow, scoped to this page
-  // instance. Replace with a real API call when a backend exists.
-  const usersRef = React.useRef(new Map());
+  // In-memory "database" for local session testing
+  const usersRef = useRef(new Map());
 
   function switchMode(next) {
     setMode(next);
@@ -60,10 +54,10 @@ export default function AuthPage({ onAuthenticated }) {
 
     setSubmitting(true);
 
-    // Simulate a brief network round trip so the UI reads honestly —
-    // remove this delay once a real endpoint is wired up.
     setTimeout(() => {
       const key = username.trim().toLowerCase();
+      // Generate a mock JWT token string safely
+      const mockToken = `mock_jwt_session_${btoa(key)}_${Date.now()}`;
 
       if (mode === "signup") {
         if (usersRef.current.has(key)) {
@@ -73,26 +67,27 @@ export default function AuthPage({ onAuthenticated }) {
         }
         usersRef.current.set(key, password);
         setSubmitting(false);
-        onAuthenticated({ username: username.trim() });
+        login(mockToken);
+        if (onAuthenticated) onAuthenticated({ username: username.trim() });
         return;
       }
 
       // signin
       const stored = usersRef.current.get(key);
-      if (stored === undefined) {
-        // No signup flow has run yet in this session — for the demo,
-        // allow sign-in anyway so the console remains reachable.
-        setSubmitting(false);
-        onAuthenticated({ username: username.trim() });
-        return;
-      }
-      if (stored !== password) {
+      if (stored !== undefined && stored !== password) {
         setFormError("Incorrect username or password.");
         setSubmitting(false);
         return;
       }
+
+      // If key wasn't in local map, allow mock sign-in for demo
+      if (stored === undefined) {
+        usersRef.current.set(key, password);
+      }
+
       setSubmitting(false);
-      onAuthenticated({ username: username.trim() });
+      login(mockToken);
+      if (onAuthenticated) onAuthenticated({ username: username.trim() });
     }, 400);
   }
 
@@ -120,7 +115,7 @@ export default function AuthPage({ onAuthenticated }) {
           <span className="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="20" height="20">
               <path
-                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"
+                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4-1.5 6-0"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.6"
@@ -152,6 +147,8 @@ export default function AuthPage({ onAuthenticated }) {
             Sign up
           </button>
         </div>
+
+        {formError && <div className="auth-banner-error">{formError}</div>}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <label className="auth-field">
@@ -207,36 +204,28 @@ export default function AuthPage({ onAuthenticated }) {
             </label>
           )}
 
-          {formError && <div className="auth-form-error">{formError}</div>}
-
-          <button type="submit" className="btn-primary auth-submit" disabled={submitting}>
-            {submitting
-              ? mode === "signup"
-                ? "Creating account…"
-                : "Signing in…"
-              : mode === "signup"
-              ? "Create account"
-              : "Sign in"}
+          <button type="submit" className="btn-primary" disabled={submitting}>
+            {submitting ? "Authenticating..." : mode === "signin" ? "Sign in" : "Create account"}
           </button>
-        </form>
 
-        <p className="auth-switch">
-          {mode === "signin" ? (
-            <>
-              Don't have an account?{" "}
-              <button type="button" onClick={() => switchMode("signup")}>
-                Sign up
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button type="button" onClick={() => switchMode("signin")}>
-                Sign in
-              </button>
-            </>
-          )}
-        </p>
+          <div className="auth-switch">
+            {mode === "signin" ? (
+              <span>
+                Don't have an account?{" "}
+                <button type="button" className="btn-link" onClick={() => switchMode("signup")}>
+                  Sign up
+                </button>
+              </span>
+            ) : (
+              <span>
+                Already have an account?{" "}
+                <button type="button" className="btn-link" onClick={() => switchMode("signin")}>
+                  Sign in
+                </button>
+              </span>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );
