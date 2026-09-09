@@ -125,6 +125,63 @@ button {
   cursor: default;
 }
 
+.btn-report {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: 12px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-report:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.report-popover {
+  position: absolute;
+  top: 56px;
+  right: 24px;
+  width: 320px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  z-index: 40;
+  font-size: 13px;
+}
+.report-popover-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+}
+.report-popover-head button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+.report-popover-head button:hover {
+  color: var(--text);
+}
+.report-popover-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text);
+}
+.report-popover-body p {
+  margin: 0;
+}
+
 .btn-primary {
   background: var(--accent);
   color: #06141f;
