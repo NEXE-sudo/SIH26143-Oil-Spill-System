@@ -1,29 +1,33 @@
-"""GET /api/reports/{id} — roadmap §64.
-
-Returns the same full Investigation shape as GET /api/investigations/{id}.
-Kept as a distinct route because the roadmap treats "report" (the
-investigator-facing writeup/export) as its own service (services table,
-report_service in §56/§60) — for the internal-round PoC a report IS the
-investigation record, but this indirection lets a real PDF/export
-service (see the docx/pdf export path) replace the body later without
-the frontend changing which URL it calls.
-"""
-
-from __future__ import annotations
-
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import Response
 
-from app.data import mock_investigations as store
-from app.schemas.investigation import Investigation
+from backend.app.schemas.report import InvestigationReportPayload
+from backend.app.services.report import generate_investigation_report
 
-router = APIRouter(prefix="/api/reports", tags=["reports"])
+router = APIRouter(prefix="/reports", tags=["Reports"])
 
+@router.post("/generate-pdf", response_class=Response, summary="Generate Investigation Report PDF")
+async def create_investigation_report(payload: InvestigationReportPayload):
+    """
+    Synthesizes multi-source intelligence (Observation: Sentinel-1 SAR; 
+    Reconstruction: ERA5/Copernicus drift hindcasting; Attribution: Historical AIS) 
+    into a standardised multi-page PDF briefing document suitable for presentation to NTRO.
+    """
+    try:
+        pdf_bytes = generate_investigation_report(payload)
+        
+        headers = {
+            "Content-Disposition": f'attachment; filename="report_{payload.investigation_id}.pdf"'
+        }
+        return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
 
-@router.get("/{report_id}", response_model=Investigation)
-def get_report(report_id: str) -> Investigation:
-    # TODO: once services/report.py exists, this should assemble a report
-    # (narrative + evidence + citations) rather than return the raw record.
-    inv = store.get_by_id(report_id)
-    if inv is None:
-        raise HTTPException(status_code=404, detail=f"Report {report_id} not found")
-    return inv
+@router.get("/{investigation_id}", summary="Get Investigation Report")
+async def get_investigation_report(investigation_id: str):
+    """
+    Retrieve a previously generated investigation report by ID.
+    Currently returns 501 Not Implemented until database session is configured.
+    """
+    # TODO: Fetch from SQLite DB using ReportModel
+    raise HTTPException(status_code=501, detail="Database persistence not yet configured")
