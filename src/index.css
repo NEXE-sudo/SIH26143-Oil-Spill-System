@@ -635,3 +635,344 @@ button {
     animation: none;
   }
 }
+
+/* =========================================================================
+   Landing page
+   ========================================================================= */
+
+.landing {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.landing-topbar {
+  display: flex;
+  align-items: center;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #0c121a, #0a0e14);
+}
+
+.landing-main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
+}
+
+.landing-heading h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.landing-heading p {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0 0 28px;
+}
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.stat-card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+  border-top: 2px solid transparent;
+}
+
+.stat-card.tone-accent { border-top-color: var(--accent); }
+.stat-card.tone-warn { border-top-color: var(--warn); }
+.stat-card.tone-good { border-top-color: var(--good); }
+.stat-card.tone-neutral { border-top-color: var(--muted-2); }
+
+.stat-card-value {
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+.stat-card-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.report-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.filter-chip {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 13px;
+  border-radius: 999px;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.filter-chip:hover {
+  color: var(--text);
+  border-color: #2a3a4a;
+}
+.filter-chip.active {
+  color: #06141f;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.report-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.report-empty {
+  color: var(--muted-2);
+  font-size: 13px;
+  padding: 30px 0;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+}
+
+.report-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.report-card:hover {
+  border-color: var(--accent);
+  background: #0e161f;
+}
+
+.report-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.report-id {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.status-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.status-pill.status-lodged {
+  color: var(--accent);
+  background: rgba(88, 196, 255, 0.12);
+}
+.status-pill.status-pending {
+  color: var(--warn);
+  background: rgba(245, 166, 35, 0.12);
+}
+.status-pill.status-completed {
+  color: var(--good);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.report-card-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.report-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.report-field-label {
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+
+.report-field-value {
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.report-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--muted-2);
+}
+
+.report-score {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .stat-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .report-card-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   Investigation detail overlay + key findings strip
+   ========================================================================= */
+
+.detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--bg);
+}
+
+.detail-shell {
+  height: 100vh;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 7px 12px 7px 10px;
+  border-radius: 6px;
+  margin-right: 6px;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.btn-back:hover {
+  color: var(--text);
+  border-color: #2a3a4a;
+}
+
+.key-findings {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.kf-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 150px;
+}
+
+.kf-item-score {
+  min-width: 110px;
+}
+
+.kf-sep {
+  width: 1px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.kf-label {
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+
+.kf-value {
+  font-family: var(--mono);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.kf-value.kf-empty {
+  color: var(--muted-2);
+  font-weight: 400;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.kf-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Vessel identification block inside the evidence rail */
+
+.id-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.id-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.id-label {
+  font-size: 11.5px;
+  color: var(--muted-2);
+  flex-shrink: 0;
+}
+
+.id-value {
+  font-size: 12.5px;
+  color: var(--text);
+  text-align: right;
+}
+
+.id-mono {
+  font-family: var(--mono);
+}
+
+@media (max-width: 880px) {
+  .key-findings {
+    flex-wrap: wrap;
+  }
+  .kf-sep {
+    display: none;
+  }
+}
