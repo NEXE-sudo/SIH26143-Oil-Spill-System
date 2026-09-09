@@ -20,20 +20,25 @@ export const REPORTS = [
     id: "INV-2026-0001",
     status: "completed",
     lodged_at: daysAgoISO(1),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(1) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(1),
+    },
     spill: {
       confidence: 0.91,
       area_km2: 12.83,
       perimeter_km: 17.4,
-      centroid: { lat: 13.421, lon: 80.192 },
+      centroid: { lat: 13.48858, lon: 80.40159 },
       major_axis_km: 6.4,
       minor_axis_km: 1.9,
       orientation_deg: 41,
-      polygon: "M 168,132 L 198,124 L 224,134 L 232,150 L 214,168 L 182,166 L 162,152 Z",
+      polygon:
+        "M 168,132 L 198,124 L 224,134 L 232,150 L 214,168 L 182,166 L 162,152 Z",
     },
     source: {
-      lat: 13.39,
-      lon: 80.14,
+      lat: 13.48858,
+      lon: 80.40159,
       window_start: daysAgoISO(1, 2, 0),
       window_end: daysAgoISO(1, 8, 0),
     },
@@ -56,10 +61,16 @@ export const REPORTS = [
         evidence: [
           { ok: true, text: "Passed within 3.2 km of estimated source" },
           { ok: true, text: "Passed during estimated source window" },
-          { ok: true, text: "Track direction consistent with source-to-spill path" },
+          {
+            ok: true,
+            text: "Track direction consistent with source-to-spill path",
+          },
           { ok: true, text: "Remained in region for 42 minutes" },
           { ok: null, text: "Moderate behavioural anomaly" },
-          { ok: true, text: "AIS track overlaps 71% of high-probability source corridor" },
+          {
+            ok: true,
+            text: "AIS track overlaps 71% of high-probability source corridor",
+          },
         ],
       },
       {
@@ -100,7 +111,10 @@ export const REPORTS = [
         dwell_min: 6,
         track: "M 240,110 L 250,130 L 246,150 L 236,164",
         evidence: [
-          { ok: null, text: "21.4 km from estimated source — moderate distance" },
+          {
+            ok: null,
+            text: "21.4 km from estimated source — moderate distance",
+          },
           { ok: null, text: "6.8 h outside tightest source window" },
           { ok: false, text: "No dwell time near source" },
         ],
@@ -121,7 +135,11 @@ export const REPORTS = [
     id: "INV-2026-0002",
     status: "pending",
     lodged_at: daysAgoISO(3),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(3) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(3),
+    },
     spill: {
       confidence: 0.78,
       area_km2: 6.42,
@@ -196,7 +214,11 @@ export const REPORTS = [
     id: "INV-2026-0003",
     status: "lodged",
     lodged_at: daysAgoISO(0, 6, 10),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(0, 6, 10) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(0, 6, 10),
+    },
     spill: {
       confidence: 0.66,
       area_km2: 3.15,
@@ -250,7 +272,11 @@ export const REPORTS = [
     id: "INV-2026-0004",
     status: "completed",
     lodged_at: daysAgoISO(9),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(9) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(9),
+    },
     spill: {
       confidence: 0.95,
       area_km2: 21.6,
@@ -285,10 +311,19 @@ export const REPORTS = [
         track: "M 130,180 L 156,160 L 182,144 L 204,132",
         evidence: [
           { ok: true, text: "Passed within 1.8 km of estimated source" },
-          { ok: true, text: "Passed during estimated source window (0.6 h margin)" },
-          { ok: true, text: "Track direction consistent with source-to-spill path" },
+          {
+            ok: true,
+            text: "Passed during estimated source window (0.6 h margin)",
+          },
+          {
+            ok: true,
+            text: "Track direction consistent with source-to-spill path",
+          },
           { ok: true, text: "Remained in region for 68 minutes" },
-          { ok: true, text: "AIS track overlaps 88% of high-probability source corridor" },
+          {
+            ok: true,
+            text: "AIS track overlaps 88% of high-probability source corridor",
+          },
         ],
       },
       {
@@ -327,7 +362,11 @@ export const REPORTS = [
     id: "INV-2026-0005",
     status: "pending",
     lodged_at: daysAgoISO(14),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(14) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(14),
+    },
     spill: {
       confidence: 0.72,
       area_km2: 5.05,
@@ -381,7 +420,11 @@ export const REPORTS = [
     id: "INV-2026-0006",
     status: "completed",
     lodged_at: daysAgoISO(27),
-    satellite: { platform: "Sentinel-1", product: "GRD", timestamp: daysAgoISO(27) },
+    satellite: {
+      platform: "Sentinel-1",
+      product: "GRD",
+      timestamp: daysAgoISO(27),
+    },
     spill: {
       confidence: 0.88,
       area_km2: 9.9,

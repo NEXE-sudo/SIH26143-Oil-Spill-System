@@ -14,7 +14,7 @@ from reportlab.lib.units import inch, mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, PageBreak, KeepTogether
 from reportlab.pdfgen import canvas
 
-from backend.app.schemas.report import InvestigationReportPayload
+from app.schemas.report import InvestigationReportPayload
 
 class ReportGenerator:
     def __init__(self, payload: InvestigationReportPayload):
