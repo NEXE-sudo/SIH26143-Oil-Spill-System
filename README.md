@@ -22,21 +22,47 @@ AIS vessel tracks, and a ranked, explainable list of suspect vessels.
   "accuracy" number, per roadmap §128.
 - A visible disclaimer ("investigative ranking, not proof") is always
   shown alongside vessel evidence, per roadmap §53.
+- **API integration** — the landing page loads investigations from the
+  FastAPI backend, while the detail view loads spill geometry, vessel
+  attribution, report data, and drift hindcasts through the shared API
+  client in `src/lib/api.js`.
 
-All data is currently mocked (`DEMO_INVESTIGATION` in `src/App.jsx`) so
-the UI can be demoed without a backend. Wire it up to the FastAPI
-endpoints described in roadmap §64 (`/api/spills/{id}`,
-`/api/vessels/candidates`, `/api/attribution/{investigation_id}`, etc.)
-by replacing that constant with fetched data.
+The backend currently serves deterministic mock investigation data through
+the FastAPI endpoint surface, while the frontend keeps the bundled reports
+in `src/data/reports.js` as an offline fallback when the backend is
+unavailable. Set `VITE_API_BASE_URL` to point the frontend at another API
+instance; it defaults to `http://localhost:8000`.
 
 ## Run locally
+
+Start the backend in one terminal:
+
+```bash
+cd backend
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+Then start the frontend from the repository root in another terminal:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open the printed local URL (default `http://localhost:5173`).
+Open the printed local URL (default `http://localhost:5173`). The FastAPI
+interactive docs are available at `http://localhost:8000/docs`.
+
+To run both services with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+The frontend falls back to bundled mock reports if the backend is not
+running, but detail-view API requests will remain unavailable until the
+backend is started.
 
 ## Build
 
@@ -50,7 +76,5 @@ Output goes to `dist/`.
 
 - Swap the mock SVG map for MapLibre GL JS or Leaflet with real
   Sentinel-1 tile overlays and GeoJSON spill polygons (roadmap §58–59).
-- Replace `DEMO_INVESTIGATION` with API calls once the FastAPI backend
-  (roadmap §57, §64) is running.
 - Add an investigations list / new-investigation flow (roadmap §58
   suggested pages: `/investigations`, `/investigations/new`).
