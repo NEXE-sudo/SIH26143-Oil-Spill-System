@@ -6,13 +6,22 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
+from app.config_loader import drift as drift_config
 from app.schemas.common import LatLon, SourceEstimate
+
+_drift_defaults = drift_config()
 
 
 class DriftRequest(BaseModel):
     spill_id: str
-    duration_hours: Optional[int] = Field(24, description="see configs/drift.yaml")
-    timestep_minutes: Optional[int] = Field(15, description="see configs/drift.yaml")
+    duration_hours: Optional[int] = Field(
+        default_factory=lambda: _drift_defaults.get("duration_hours", 24),
+        description="see configs/drift.yaml",
+    )
+    timestep_minutes: Optional[int] = Field(
+        default_factory=lambda: _drift_defaults.get("timestep_minutes", 15),
+        description="see configs/drift.yaml",
+    )
 
 
 class DriftTimestep(BaseModel):

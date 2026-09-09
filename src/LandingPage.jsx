@@ -25,7 +25,7 @@ function scoreColor(v) {
   return "var(--muted-2)";
 }
 
-export default function LandingPage({ reports, onOpenReport, session, onSignOut }) {
+export default function LandingPage({ reports, loadError, onOpenReport, session, onSignOut }) {
   const [filter, setFilter] = useState("all");
 
   const recent = useMemo(() => reports.filter((r) => withinDays(r.lodged_at, 31)), [reports]);
@@ -43,6 +43,11 @@ export default function LandingPage({ reports, onOpenReport, session, onSignOut 
 
   return (
     <div className="landing">
+      {loadError && (
+        <div className="landing-banner" role="status">
+          Backend unreachable — showing sample data. ({loadError})
+        </div>
+      )}
       <header className="landing-topbar">
         <div className="brand">
           <span className="brand-mark" aria-hidden="true">

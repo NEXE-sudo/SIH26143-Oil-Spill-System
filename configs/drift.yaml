@@ -1,0 +1,9 @@
+# Drift hindcast/forecast parameters.
+# Read by backend/app/services/drift.py (PyGNOME) — do not hard-code these in code.
+
+duration_hours: 24
+timestep_minutes: 15
+
+# Forcing data sources (fill in once wired to a real provider).
+wind_source: "" # e.g. ECMWF / IMD
+current_source: "" # e.g. HYCOM / INCOIS

@@ -2,3 +2,6 @@ fastapi>=0.111
 uvicorn[standard]>=0.30
 pydantic>=2.7
 python-multipart>=0.0.9
+pyyaml>=6.0
+sqlalchemy>=2.0
+

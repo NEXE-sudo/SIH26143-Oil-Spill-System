@@ -1,0 +1,8 @@
+# Oil-spill detection parameters.
+# Read by backend/app/services/detection.py — do not hard-code these in code.
+
+threshold: 0.50 # confidence threshold above which a pixel/region is classed as oil
+
+# Minimum contiguous area (in km^2) for a detected region to be treated as
+# a spill rather than noise/speckle residue.
+min_area_km2: 0.05

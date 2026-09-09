@@ -6,7 +6,10 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
+from app.config_loader import detection as detection_config
 from app.schemas.common import SatelliteScene, SpillGeometry
+
+_detection_defaults = detection_config()
 
 
 class SceneSearchRequest(BaseModel):
@@ -30,7 +33,8 @@ class SceneSearchResponse(BaseModel):
 class SpillDetectRequest(BaseModel):
     scene_id: str
     threshold: Optional[float] = Field(
-        0.50, description="Detection confidence threshold, see configs/detection.yaml"
+        default_factory=lambda: _detection_defaults.get("threshold", 0.50),
+        description="Detection confidence threshold, see configs/detection.yaml",
     )
 
 

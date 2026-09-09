@@ -646,6 +646,14 @@ button {
   color: var(--text);
 }
 
+.landing-banner {
+  padding: 8px 28px;
+  font-size: 12.5px;
+  color: var(--warn);
+  background: rgba(245, 166, 35, 0.08);
+  border-bottom: 1px solid var(--line);
+}
+
 .landing-topbar {
   display: flex;
   align-items: center;

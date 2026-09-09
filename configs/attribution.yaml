@@ -1,0 +1,15 @@
+# AIS candidate filtering + vessel attribution scoring parameters.
+# Read by backend/app/services/ais.py and backend/app/services/attribution.py
+# — do not hard-code these in code.
+
+ais:
+  spatial_radius_km: 25
+  time_window_hours: 24
+
+attribution:
+  weights:
+    spatial: 0.30
+    temporal: 0.25
+    trajectory: 0.20
+    behaviour: 0.15
+    context: 0.10
