@@ -7,3 +7,7 @@ sqlalchemy>=2.0
 matplotlib>=3.8
 reportlab>=4.0
 
+# SAR preprocessing (services/preprocessing.py)
+rasterio>=1.3
+numpy>=1.26
+scikit-image>=0.22
