@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+@import "leaflet/dist/leaflet.css";
 
 :root {
   --bg: #0a0e14;
@@ -17,9 +18,13 @@
   --sans: "Inter", -apple-system, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
 }
@@ -114,7 +119,9 @@ button {
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 .btn-demo:hover:not(:disabled) {
   border-color: var(--accent);
@@ -133,7 +140,9 @@ button {
   border-radius: 5px;
   font-family: var(--mono);
   font-size: 12px;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 .btn-report:hover {
   border-color: var(--accent);
@@ -256,8 +265,12 @@ button {
   color: var(--muted-2);
 }
 
-.pipeline-list li.active { color: var(--text); }
-.pipeline-list li.done { color: var(--good); }
+.pipeline-list li.active {
+  color: var(--text);
+}
+.pipeline-list li.done {
+  color: var(--good);
+}
 
 .pipeline-marker {
   width: 16px;
@@ -276,7 +289,9 @@ button {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ---------------- Main layout ---------------- */
@@ -305,10 +320,21 @@ button {
   overflow: hidden;
 }
 
-.map-svg {
+.live-map {
   width: 100%;
   height: 100%;
-  display: block;
+  min-height: 420px;
+  background: #0d1620;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #0d1620;
+}
+
+.leaflet-control-zoom {
+  display: none;
 }
 
 .vessel-marker {
@@ -333,6 +359,186 @@ button {
   padding: 6px 10px;
   border-radius: 6px;
   backdrop-filter: blur(4px);
+  z-index: 500;
+}
+
+.ops-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  border-radius: 999px;
+  background: rgba(8, 17, 29, 0.74);
+  color: #dfeffd;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  z-index: 500;
+}
+
+.ops-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+}
+
+.map-legend {
+  position: absolute;
+  left: 12px;
+  top: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 7px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 8px;
+  background: rgba(8, 15, 25, 0.7);
+  color: var(--muted);
+  font-size: 10.5px;
+  font-family: var(--mono);
+  z-index: 500;
+}
+
+.map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.focus-toggle {
+  border: 1px solid rgba(125, 211, 252, 0.5);
+  background: rgba(14, 116, 144, 0.12);
+  color: #dbeafe;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.focus-toggle.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(125, 211, 252, 0.9);
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 2px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.legend-swatch.wind {
+  background: #7dd3fc;
+}
+.legend-swatch.current {
+  background: #34d399;
+}
+.legend-swatch.drift {
+  background: #f59e0b;
+}
+.legend-swatch.spill {
+  background: #fb7185;
+}
+
+.drift-controls {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  width: min(380px, calc(100% - 110px));
+  background: rgba(10, 14, 20, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  padding: 12px 12px 10px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.42);
+  z-index: 500;
+}
+
+.drift-controls-header,
+.drift-range-labels,
+.drift-controls-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.drift-controls-header {
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.drift-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.14);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.drift-controls-time {
+  margin-bottom: 8px;
+  color: #f8fafc;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.drift-controls-actions {
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.drift-controls-actions button {
+  flex: 1 1 84px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.8),
+    rgba(15, 23, 42, 0.6)
+  );
+  color: var(--text);
+  border-radius: 6px;
+  padding: 7px 8px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 600;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.drift-controls-actions button:hover {
+  border-color: rgba(125, 211, 252, 0.8);
+  transform: translateY(-1px);
+}
+
+.drift-controls input[type="range"] {
+  width: 100%;
+  accent-color: #38bdf8;
+  margin: 4px 0 6px;
+}
+
+.drift-range-labels {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted-2);
 }
 
 .layer-toggles {
@@ -444,8 +650,18 @@ button {
 .window-bar {
   flex: 1;
   height: 2px;
-  background: linear-gradient(90deg, var(--amber), transparent 0%, transparent 100%, var(--amber));
-  background: repeating-linear-gradient(90deg, var(--amber) 0 4px, transparent 4px 8px);
+  background: linear-gradient(
+    90deg,
+    var(--amber),
+    transparent 0%,
+    transparent 100%,
+    var(--amber)
+  );
+  background: repeating-linear-gradient(
+    90deg,
+    var(--amber) 0 4px,
+    transparent 4px 8px
+  );
   opacity: 0.6;
 }
 
@@ -752,10 +968,18 @@ button {
   border-top: 2px solid transparent;
 }
 
-.stat-card.tone-accent { border-top-color: var(--accent); }
-.stat-card.tone-warn { border-top-color: var(--warn); }
-.stat-card.tone-good { border-top-color: var(--good); }
-.stat-card.tone-neutral { border-top-color: var(--muted-2); }
+.stat-card.tone-accent {
+  border-top-color: var(--accent);
+}
+.stat-card.tone-warn {
+  border-top-color: var(--warn);
+}
+.stat-card.tone-good {
+  border-top-color: var(--good);
+}
+.stat-card.tone-neutral {
+  border-top-color: var(--muted-2);
+}
 
 .stat-card-value {
   font-family: var(--mono);
@@ -785,7 +1009,9 @@ button {
   font-weight: 500;
   padding: 6px 13px;
   border-radius: 999px;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition:
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 .filter-chip:hover {
   color: var(--text);
@@ -821,7 +1047,9 @@ button {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 16px 18px;
-  transition: border-color 0.12s ease, background 0.12s ease;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
 }
 .report-card:hover {
   border-color: var(--accent);
@@ -941,7 +1169,9 @@ button {
   padding: 7px 12px 7px 10px;
   border-radius: 6px;
   margin-right: 6px;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition:
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 .btn-back:hover {
   color: var(--text);
@@ -1105,7 +1335,9 @@ button {
   font-weight: 500;
   padding: 8px 0;
   border-radius: 6px;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
 }
 .auth-tab.active {
   background: var(--accent);
@@ -1170,7 +1402,9 @@ button {
   padding: 0 12px;
   border-radius: 7px;
   flex-shrink: 0;
-  transition: color 0.12s ease, border-color 0.12s ease;
+  transition:
+    color 0.12s ease,
+    border-color 0.12s ease;
 }
 .auth-toggle-visibility:hover {
   color: var(--text);
@@ -1244,7 +1478,9 @@ button {
   font-weight: 500;
   padding: 6px 12px;
   border-radius: 6px;
-  transition: color 0.12s ease, border-color 0.12s ease;
+  transition:
+    color 0.12s ease,
+    border-color 0.12s ease;
 }
 .btn-signout:hover {
   color: var(--text);

@@ -19,6 +19,10 @@ from fastapi.testclient import TestClient
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "backend"))
 
 from app.main import app  # noqa: E402
+from app.data import mock_investigations as store  # noqa: E402
+from app.services.ais import candidate_vessels  # noqa: E402
+from app.services.attribution import score_and_rank  # noqa: E402
+from app.services.drift import hindcast  # noqa: E402
 
 client = TestClient(app)
 
@@ -101,10 +105,18 @@ def test_drift_hindcast_and_forecast():
     r = client.post("/api/drift/hindcast", json={"spill_id": spill_id})
     assert r.status_code == 200
     assert len(r.json()["track"]) > 0
+    assert r.json()["source_mode"] in {"cached_forcing", "synthetic_fallback", "real_forcing"}
 
     r2 = client.post("/api/drift/forecast", json={"spill_id": spill_id})
     assert r2.status_code == 200
     assert len(r2.json()["track"]) > 0
+    assert r2.json()["source_mode"] in {"cached_forcing", "synthetic_fallback", "real_forcing"}
+
+    drift_step = r.json()["track"][0]
+    assert "wind" in drift_step
+    assert "current" in drift_step
+    assert set(drift_step["wind"]).issuperset({"u_m_s", "v_m_s"})
+    assert set(drift_step["current"]).issuperset({"u_m_s", "v_m_s"})
 
 
 def test_vessel_candidates():
@@ -141,6 +153,28 @@ def test_get_report():
     r = client.get(f"/api/reports/{KNOWN_INVESTIGATION_ID}")
     assert r.status_code == 200
     assert r.json()["id"] == KNOWN_INVESTIGATION_ID
+
+
+def test_drift_service_builds_hindcast_track():
+    inv = store.get_by_id(KNOWN_INVESTIGATION_ID)
+    spill = {"id": f"SPL-{KNOWN_INVESTIGATION_ID.removeprefix('INV-')}", **inv["spill"]}
+    start = inv["satellite"]["timestamp"]
+    result = hindcast(spill, start, duration_hours=24, timestep_minutes=15)
+    assert "source_estimate" in result
+    assert len(result["track"]) > 1
+    assert result["source_estimate"]["lat"]
+
+
+def test_ais_candidate_filter_and_attribution_ranking():
+    inv = store.get_by_id(KNOWN_INVESTIGATION_ID)
+    source = inv["source"]
+    candidates = candidate_vessels(source, spatial_radius_km=25, time_window_hours=24)
+    assert len(candidates) >= 1
+
+    ranked = score_and_rank(inv, {"spatial": 0.3, "temporal": 0.25, "trajectory": 0.2, "behaviour": 0.15, "context": 0.1}, 25, 24)
+    assert len(ranked) >= 1
+    assert ranked[0]["final_score"] >= ranked[-1]["final_score"]
+    assert all("evidence" in v for v in ranked)
 
 
 @pytest.mark.parametrize("path", ["/api/reports/nope", "/api/attribution/nope"])
