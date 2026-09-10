@@ -1,43 +1,36 @@
 import React, { useState } from "react";
+import { useAuth } from "./context/AuthContext.jsx";
 
-// ---------------------------------------------------------------------------
-// Auth page: username + password only, nothing else (no email, no OAuth,
-// no 2FA). Toggles between sign in and sign up. This is a front-end mock —
-// "accounts" live in memory for the session via the users map passed in.
-// Wire onAuthenticated up to a real backend later (e.g. POST /api/auth/login,
-// POST /api/auth/signup).
-// ---------------------------------------------------------------------------
-
-function validate(username, password, mode) {
+// 1. Updated to validate email instead of username
+function validate(email, password, mode) {
   const errors = {};
-  if (!username.trim()) {
-    errors.username = "Username is required";
-  } else if (username.trim().length < 3) {
-    errors.username = "Username must be at least 3 characters";
+  if (!email.trim()) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+    errors.email = "Must be a valid email address";
   }
 
   if (!password) {
     errors.password = "Password is required";
-  } else if (mode === "signup" && password.length < 8) {
-    errors.password = "Password must be at least 8 characters";
+  } else if (mode === "signup" && password.length < 6) { // Supabase default min length is 6
+    errors.password = "Password must be at least 6 characters";
   }
 
   return errors;
 }
 
 export default function AuthPage({ onAuthenticated }) {
-  const [mode, setMode] = useState("signin"); // "signin" | "signup"
-  const [username, setUsername] = useState("");
+  // 2. Pulled both login and signup from your new AuthContext
+  const { login, signup } = useAuth();
+  
+  const [mode, setMode] = useState("signin"); 
+  const [email, setEmail] = useState(""); // Changed username to email
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
-  // In-memory "database" for the mock signup flow, scoped to this page
-  // instance. Replace with a real API call when a backend exists.
-  const usersRef = React.useRef(new Map());
 
   function switchMode(next) {
     setMode(next);
@@ -46,10 +39,11 @@ export default function AuthPage({ onAuthenticated }) {
     setConfirmPassword("");
   }
 
-  function handleSubmit(e) {
+  // 3. Replaced fake timeout logic with real async Supabase calls
+  async function handleSubmit(e) {
     e.preventDefault();
     setFormError("");
-    const fieldErrors = validate(username, password, mode);
+    const fieldErrors = validate(email, password, mode);
 
     if (mode === "signup" && password !== confirmPassword) {
       fieldErrors.confirmPassword = "Passwords do not match";
@@ -60,40 +54,20 @@ export default function AuthPage({ onAuthenticated }) {
 
     setSubmitting(true);
 
-    // Simulate a brief network round trip so the UI reads honestly —
-    // remove this delay once a real endpoint is wired up.
-    setTimeout(() => {
-      const key = username.trim().toLowerCase();
-
+    try {
       if (mode === "signup") {
-        if (usersRef.current.has(key)) {
-          setFormError("That username is already taken.");
-          setSubmitting(false);
-          return;
-        }
-        usersRef.current.set(key, password);
-        setSubmitting(false);
-        onAuthenticated({ username: username.trim() });
-        return;
+        await signup(email, password); // Real Supabase Signup
+        if (onAuthenticated) onAuthenticated({ email: email.trim() });
+      } else {
+        await login(email, password); // Real Supabase Login
+        if (onAuthenticated) onAuthenticated({ email: email.trim() });
       }
-
-      // signin
-      const stored = usersRef.current.get(key);
-      if (stored === undefined) {
-        // No signup flow has run yet in this session — for the demo,
-        // allow sign-in anyway so the console remains reachable.
-        setSubmitting(false);
-        onAuthenticated({ username: username.trim() });
-        return;
-      }
-      if (stored !== password) {
-        setFormError("Incorrect username or password.");
-        setSubmitting(false);
-        return;
-      }
+    } catch (err) {
+      // Supabase will automatically send back errors like "Invalid login credentials"
+      setFormError(err.message || "Authentication failed.");
+    } finally {
       setSubmitting(false);
-      onAuthenticated({ username: username.trim() });
-    }, 400);
+    }
   }
 
   return (
@@ -120,7 +94,7 @@ export default function AuthPage({ onAuthenticated }) {
           <span className="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="20" height="20">
               <path
-                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"
+                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4-1.5 6-0"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.6"
@@ -153,18 +127,20 @@ export default function AuthPage({ onAuthenticated }) {
           </button>
         </div>
 
+        {formError && <div className="auth-banner-error">{formError}</div>}
+
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <label className="auth-field">
-            <span className="auth-label">Username</span>
+            <span className="auth-label">Email Address</span>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-              placeholder="e.g. investigator07"
-              className={errors.username ? "invalid" : ""}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              placeholder="e.g. investigator07@ntro.gov"
+              className={errors.email ? "invalid" : ""}
             />
-            {errors.username && <span className="auth-error">{errors.username}</span>}
+            {errors.email && <span className="auth-error">{errors.email}</span>}
           </label>
 
           <label className="auth-field">
@@ -175,7 +151,7 @@ export default function AuthPage({ onAuthenticated }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                placeholder={mode === "signup" ? "At least 8 characters" : "Enter your password"}
+                placeholder={mode === "signup" ? "At least 6 characters" : "Enter your password"}
                 className={errors.password ? "invalid" : ""}
               />
               <button
@@ -207,36 +183,28 @@ export default function AuthPage({ onAuthenticated }) {
             </label>
           )}
 
-          {formError && <div className="auth-form-error">{formError}</div>}
-
-          <button type="submit" className="btn-primary auth-submit" disabled={submitting}>
-            {submitting
-              ? mode === "signup"
-                ? "Creating account…"
-                : "Signing in…"
-              : mode === "signup"
-              ? "Create account"
-              : "Sign in"}
+          <button type="submit" className="btn-primary" disabled={submitting}>
+            {submitting ? "Authenticating..." : mode === "signin" ? "Sign in" : "Create account"}
           </button>
-        </form>
 
-        <p className="auth-switch">
-          {mode === "signin" ? (
-            <>
-              Don't have an account?{" "}
-              <button type="button" onClick={() => switchMode("signup")}>
-                Sign up
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button type="button" onClick={() => switchMode("signin")}>
-                Sign in
-              </button>
-            </>
-          )}
-        </p>
+          <div className="auth-switch">
+            {mode === "signin" ? (
+              <span>
+                Don't have an account?{" "}
+                <button type="button" className="btn-link" onClick={() => switchMode("signup")}>
+                  Sign up
+                </button>
+              </span>
+            ) : (
+              <span>
+                Already have an account?{" "}
+                <button type="button" className="btn-link" onClick={() => switchMode("signin")}>
+                  Sign in
+                </button>
+              </span>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { STATUS_LABELS } from "./data/reports.js";
-
-// ---------------------------------------------------------------------------
-// Landing dashboard: shows the four headline counters (lodged, pending,
-// completed, total in the last 31 days) and a list of reports. Clicking a
-// report calls onOpenReport(report) so the parent can show the detail view.
-// ---------------------------------------------------------------------------
+import { useAuth } from "./context/AuthContext.jsx";
+import { listInvestigations } from "./lib/api.js";
+import AIAssistant from "./AIAssistant.jsx";
 
 function fmtShortDateTime(iso) {
   const d = new Date(iso);
@@ -25,8 +22,13 @@ function scoreColor(v) {
   return "var(--muted-2)";
 }
 
-export default function LandingPage({ reports, loadError, onOpenReport, session, onSignOut }) {
+export default function LandingPage({ reports, onOpenReport }) {
   const [filter, setFilter] = useState("all");
+  const [internalReports, setInternalReports] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+
+  const { token, isAuthenticated, login, logout } = useAuth();
 
   const recent = useMemo(() => reports.filter((r) => withinDays(r.lodged_at, 31)), [reports]);
 
@@ -41,11 +43,34 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
     return [...list].sort((a, b) => new Date(b.lodged_at) - new Date(a.lodged_at));
   }, [recent, filter]);
 
+  useEffect(() => {
+    const fetchInternalReports = async () => {
+      if (!isAuthenticated) {
+        setFetchError("User not authenticated");
+        return;
+      }
+
+      setLoading(true);
+      setFetchError(null);
+
+      try {
+        const response = await listInvestigations(token);
+        setInternalReports(response);
+      } catch (error) {
+        setFetchError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInternalReports();
+  }, [isAuthenticated, token, setInternalReports, setFetchError, setLoading]);
+
   return (
     <div className="landing">
-      {loadError && (
+      {fetchError && (
         <div className="landing-banner" role="status">
-          Backend unreachable — showing sample data. ({loadError})
+          Backend unreachable — showing sample data. ({fetchError})
         </div>
       )}
       <header className="landing-topbar">
@@ -53,7 +78,7 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
           <span className="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="18" height="18">
               <path
-                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"
+                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4-1.5 6-0zm4-10c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2zm0 10c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2z"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.6"
@@ -69,10 +94,10 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
           </div>
         </div>
 
-        {session && (
+        {isAuthenticated && (
           <div className="landing-session">
-            <span className="session-user">{session.username}</span>
-            <button className="btn-signout" onClick={onSignOut}>
+            <span className="session-user">User: {token ? token.username : "Guest"}</span>
+            <button className="btn-signout" onClick={logout}>
               Sign out
             </button>
           </div>
@@ -154,19 +179,36 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
           })}
         </div>
       </main>
+
+      {/* Floating AI Operational Copilot */}
+      <AIAssistant />
     </div>
   );
 }
 
-function StatCard({ label, value, tone }) {
+export { listInvestigations };
+
+// --- Helper Components ---
+
+function StatCard({ label, value, sub, icon }) {
   return (
-    <div className={"stat-card tone-" + tone}>
-      <div className="stat-card-value">{value}</div>
-      <div className="stat-card-label">{label}</div>
+    <div className="stat-card">
+      {icon && <div className="stat-icon">{icon}</div>}
+      <div className="stat-content">
+        <div className="stat-title">{label}</div>
+        <div className="stat-value">{value}</div>
+        {sub && <div className="stat-sub">{sub}</div>}
+      </div>
     </div>
   );
 }
 
 function StatusPill({ status }) {
-  return <span className={"status-pill status-" + status}>{STATUS_LABELS[status]}</span>;
+  const labels = {
+    lodged: { text: "Lodged", className: "pill-lodged" },
+    pending: { text: "Pending", className: "pill-pending" },
+    completed: { text: "Completed", className: "pill-completed" },
+  };
+  const info = labels[status] || { text: status, className: "pill-default" };
+  return <span className={`status-pill ${info.className}`}>{info.text}</span>;
 }
