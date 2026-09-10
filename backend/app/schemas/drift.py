@@ -31,6 +31,12 @@ class DriftVector(BaseModel):
     direction_deg: Optional[float] = Field(
         None, description="Compass direction in degrees clockwise from north"
     )
+    temperature_c: Optional[float] = Field(None, description="Water or air temperature at the vector sample")
+
+
+class DriftVectorSample(DriftVector):
+    lat: float
+    lon: float
 
 
 class DriftTimestep(BaseModel):
@@ -44,6 +50,8 @@ class DriftTimestep(BaseModel):
     current: Optional[DriftVector] = Field(
         None, description="Ocean current forcing at this timestep"
     )
+    wind_field: List[DriftVectorSample] = Field(default_factory=list)
+    current_field: List[DriftVectorSample] = Field(default_factory=list)
 
 
 class DriftHindcastResponse(BaseModel):
