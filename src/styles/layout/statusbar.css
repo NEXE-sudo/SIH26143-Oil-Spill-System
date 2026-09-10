@@ -1,0 +1,23 @@
+/* ---------------- Status bar ---------------- */
+
+.statusbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 20px;
+  border-top: 1px solid var(--line);
+  background: #090d13;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  flex-shrink: 0;
+}
+
+.statusbar-fill {
+  flex: 1;
+}
+
+.build-tag {
+  color: var(--muted-2);
+  opacity: 0.7;
+}
