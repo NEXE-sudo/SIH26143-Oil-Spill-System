@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { STATUS_LABELS } from "./data/reports.js";
 import { useAuth } from "./context/AuthContext.jsx";
+import AIAssistant from "./AIAssistant.jsx";
 
 // ---------------------------------------------------------------------------
 // Landing dashboard: shows the four headline counters (lodged, pending,
