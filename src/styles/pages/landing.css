@@ -1,0 +1,625 @@
+/* =========================================================================
+   Landing page
+   ========================================================================= */
+
+.landing {
+  min-height: 100dvh;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* =========================================================================
+   Backend status banner
+   ========================================================================= */
+
+.landing-banner {
+  padding: 8px 28px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--warn);
+  background: rgba(245, 166, 35, 0.08);
+  border-bottom: 1px solid var(--line);
+}
+
+/* =========================================================================
+   Landing page topbar
+   ========================================================================= */
+
+.landing-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 68px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #0c121a 0%, #0a0e14 100%);
+}
+
+.landing-topbar > .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.landing-topbar .brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--accent);
+}
+
+.landing-topbar .brand-title {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.landing-topbar .brand-sub {
+  margin-top: 1px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.landing-topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.landing-page-title {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* =========================================================================
+   Main content
+   ========================================================================= */
+
+.landing-main {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding:
+    clamp(28px, 5vw, 48px)
+    clamp(16px, 4vw, 28px)
+    64px;
+  box-sizing: border-box;
+}
+
+/* =========================================================================
+   Heading
+   ========================================================================= */
+
+.landing-heading {
+  animation:
+    landingFadeUp 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing-heading h1 {
+  margin: 0 0 6px;
+  font-size: clamp(21px, 3vw, 26px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.landing-heading p {
+  max-width: 680px;
+  margin: 0 0 28px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* =========================================================================
+   Statistics
+   ========================================================================= */
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.stat-card {
+  position: relative;
+  min-width: 0;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--line);
+  border-top: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+  cursor: default;
+  animation:
+    landingFadeUp 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.stat-card:nth-child(1) {
+  animation-delay: 60ms;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-bottom-color: #243443;
+  background: #0e161f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.stat-card.tone-accent {
+  border-top-color: var(--accent);
+}
+
+.stat-card.tone-warn {
+  border-top-color: var(--warn);
+}
+
+.stat-card.tone-good {
+  border-top-color: var(--good);
+}
+
+.stat-card.tone-neutral {
+  border-top-color: var(--muted-2);
+}
+
+.stat-card-value {
+  font-family: var(--mono);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+.stat-card-label {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* =========================================================================
+   Filters
+   ========================================================================= */
+
+.report-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  animation:
+    landingFadeUp 450ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+
+.report-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chip {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    background-color 140ms ease;
+}
+
+.filter-chip:hover {
+  transform: none;
+  color: var(--text);
+  border-color: #2a3a4a;
+}
+
+.filter-chip:active {
+  transform: scale(0.98);
+}
+
+.filter-chip.active {
+  color: #06141f;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* =========================================================================
+   Report list
+   ========================================================================= */
+
+.report-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* =========================================================================
+   Empty state
+   ========================================================================= */
+
+.report-empty {
+  padding: 34px 20px;
+  text-align: center;
+  color: var(--muted-2);
+  font-size: 13px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  animation: landingFadeUp 350ms ease-out both;
+}
+
+/* =========================================================================
+   Report card
+   ========================================================================= */
+
+.report-card {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 16px 18px;
+  box-sizing: border-box;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  animation:
+    landingFadeUp 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.report-card:nth-child(1) {
+  animation-delay: 40ms;
+}
+
+.report-card:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.report-card:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.report-card:nth-child(4) {
+  animation-delay: 130ms;
+}
+
+.report-card:nth-child(5) {
+  animation-delay: 160ms;
+}
+
+.report-card:hover {
+  transform: translateY(-1px);
+  border-color: #315064;
+  background: #0e161f;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.report-card:active {
+  transform: translateY(0);
+}
+
+.report-card:focus-visible {
+  outline: 2px solid rgba(88, 196, 255, 0.65);
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+   Report header
+   ========================================================================= */
+
+.report-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.report-id {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-pill {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.status-pill.status-lodged {
+  color: var(--accent);
+  background: rgba(88, 196, 255, 0.12);
+}
+
+.status-pill.status-pending {
+  color: var(--warn);
+  background: rgba(245, 166, 35, 0.12);
+}
+
+.status-pill.status-completed {
+  color: var(--good);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+/* =========================================================================
+   Report body
+   ========================================================================= */
+
+.report-card-body {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.report-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.report-field-label {
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+
+.report-field-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+/* =========================================================================
+   Report footer
+   ========================================================================= */
+
+.report-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted-2);
+  font-size: 11.5px;
+}
+
+.report-lodged,
+.report-score {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.report-score {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+/* =========================================================================
+   Landing animations
+   ========================================================================= */
+
+@keyframes landingFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================================
+   Responsive
+   ========================================================================= */
+
+@media (max-width: 900px) {
+  .stat-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .landing-topbar {
+    padding: 12px 16px;
+  }
+
+  .landing-topbar-actions {
+    gap: 10px;
+  }
+
+  .landing-page-title {
+    display: none;
+  }
+
+  .landing-main {
+    padding-top: 28px;
+  }
+
+  .report-card-body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .report-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .report-score,
+  .report-lodged {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .landing-banner {
+    padding: 8px 14px;
+    font-size: 11.5px;
+  }
+
+  .landing-topbar {
+    min-height: 60px;
+    padding: 10px 14px;
+  }
+
+  .landing-topbar > .brand {
+    gap: 8px;
+  }
+
+  .landing-topbar .brand-mark {
+    padding: 5px;
+  }
+
+  .landing-topbar .brand-title {
+    font-size: 12px;
+  }
+
+  .landing-topbar .brand-sub {
+    font-size: 9px;
+  }
+
+  .landing-main {
+    padding: 24px 14px 44px;
+  }
+
+  .landing-heading p {
+    margin-bottom: 22px;
+  }
+
+  .stat-cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 15px 16px;
+  }
+
+  .stat-card-value {
+    font-size: 25px;
+  }
+
+  .report-card {
+    padding: 14px;
+  }
+
+  .report-card-body {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .report-card-footer {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .landing-topbar {
+    gap: 10px;
+  }
+
+  .landing-topbar .brand-title {
+    font-size: 12.5px;
+  }
+
+  .landing-topbar .brand-sub {
+    font-size: 9.5px;
+  }
+
+  .landing-topbar-actions {
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-heading,
+  .stat-card,
+  .report-filters,
+  .report-card,
+  .report-empty {
+    animation: none;
+  }
+
+  .stat-card,
+  .filter-chip,
+  .report-card {
+    transition: none;
+  }
+}

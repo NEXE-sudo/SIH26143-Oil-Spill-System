@@ -1,0 +1,16 @@
+:root {
+  --bg: #0a0e14;
+  --panel: #0d131b;
+  --panel-2: #101822;
+  --line: #1b2530;
+  --text: #dbe2ea;
+  --muted: #8b96a5;
+  --muted-2: #5b6674;
+  --accent: #58c4ff;
+  --good: #4ade80;
+  --warn: #f5a623;
+  --amber: #f5a623;
+  --danger: #fb7185;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sans: "Inter", -apple-system, sans-serif;
+}

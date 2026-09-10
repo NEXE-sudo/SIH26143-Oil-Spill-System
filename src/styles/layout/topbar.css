@@ -1,0 +1,275 @@
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 68px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #0c121a 0%, #0a0e14 100%);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------------------------------------------------------
+   BRAND
+   --------------------------------------------------------- */
+
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.topbar .brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--accent);
+}
+
+.topbar .brand-title {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar .brand-sub {
+  margin-top: 1px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------
+   PAGE / INVESTIGATION INFORMATION
+   --------------------------------------------------------- */
+
+.topbar-page-title {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.topbar-inv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.investigation-header {
+  position: relative;
+  z-index: 20;
+}
+
+.investigation-header-meta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+}
+
+.investigation-header-meta .profile-menu {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.investigation-id {
+  min-width: 0;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.investigation-status {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------
+   BACK BUTTON
+   --------------------------------------------------------- */
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-right: 6px;
+  padding: 7px 12px 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.btn-back:hover {
+  color: var(--text);
+  border-color: #2a3a4a;
+  background: var(--panel);
+}
+
+.btn-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-back svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------
+   VIEW REPORT
+   --------------------------------------------------------- */
+
+.btn-report {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.btn-report:hover {
+  border-color: var(--accent);
+  background: var(--panel-2);
+  color: var(--accent);
+}
+
+.btn-report:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-report:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+/* ---------------------------------------------------------
+   INVESTIGATION HEADER
+   --------------------------------------------------------- */
+
+.investigation-header {
+  position: relative;
+  z-index: 20;
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .topbar {
+    min-height: 60px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .topbar .brand {
+    gap: 8px;
+  }
+
+  .topbar .brand-mark {
+    padding: 5px;
+  }
+
+  .topbar .brand-title {
+    font-size: 12px;
+  }
+
+  .topbar .brand-sub {
+    font-size: 9px;
+  }
+
+  .btn-back {
+    padding: 6px 8px;
+  }
+
+  .btn-back span {
+    display: none;
+  }
+
+  .investigation-header-meta {
+    gap: 7px;
+  }
+
+  .investigation-id {
+    max-width: 140px;
+    font-size: 10px;
+  }
+
+  .investigation-status {
+    display: none;
+  }
+
+  .btn-report {
+    min-height: 32px;
+    padding: 0 9px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .investigation-id {
+    display: none;
+  }
+}

@@ -1,0 +1,68 @@
+/* =========================================================================
+   Map layers
+   ========================================================================= */
+
+.map-layers {
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+  padding: 9px 12px;
+}
+
+.map-layers-header {
+  margin-bottom: 8px;
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.map-layers-groups {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.map-layers-groups::-webkit-scrollbar {
+  display: none;
+}
+
+.map-layer-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.map-layer-group-title {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--muted-2);
+}
+
+.map-layer-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+}
+
+.map-layer-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 10.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.map-layer-item input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.map-layer-item:has(input:checked) {
+  color: var(--text);
+}
