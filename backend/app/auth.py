@@ -42,11 +42,21 @@ def verify_token(token: str) -> dict[str, Any]:
         return _local_dev_payload()
 
     try:
+        unverified_header = jwt.get_unverified_header(token)
+        token_alg = unverified_header.get("alg")
+        allowed_algorithms = list(dict.fromkeys([
+            token_alg,
+            "HS256", "HS384", "HS512",
+            "RS256", "RS384", "RS512",
+            "ES256", "ES384", "ES512"
+        ]))
+        allowed_algorithms = [a for a in allowed_algorithms if a]
+
         if JWT_SECRET:
             return jwt.decode(
                 token,
                 JWT_SECRET,
-                algorithms=["HS256"],
+                algorithms=allowed_algorithms,
                 options={"require": ["exp", "sub"]},
             )
 
@@ -61,7 +71,7 @@ def verify_token(token: str) -> dict[str, Any]:
         return jwt.decode(
             token,
             signing_key.key,
-            algorithms=["RS256"],
+            algorithms=allowed_algorithms,
             options={"require": ["exp", "sub"]},
         )
     except Exception as exc:  # pragma: no cover - runtime validation path
