@@ -37,6 +37,107 @@ INVESTIGATIONS: List[Dict[str, Any]] = [
     {
         "id": "INV-2026-0001",
         "status": "completed",
+        "lodged_at": "2026-02-18T10:15:00Z",
+        "satellite": {
+            "platform": "Sentinel-1",
+            "product": "GRD",
+            "timestamp": "2026-02-18T10:15:00Z",
+        },
+        "spill": {
+            "confidence": 0.93,
+            "area_km2": 16.8,
+            "perimeter_km": 18.9,
+            "centroid": {"lat": 25.84, "lon": -35.42},
+            "major_axis_km": 7.2,
+            "minor_axis_km": 2.1,
+            "orientation_deg": 28,
+            "polygon": "M 156,128 L 198,120 L 236,136 L 246,160 L 214,176 L 172,170 L 148,152 Z",
+        },
+        "source": {
+            "lat": 25.84,
+            "lon": -35.42,
+            "window_start": "2026-02-17T23:30:00Z",
+            "window_end": "2026-02-18T05:45:00Z",
+        },
+        "vessels": [
+            {
+                "mmsi": "357219004",
+                "imo": "9824401",
+                "name": "MV ATLANTIC BREEZE",
+                "flag": "Liberia",
+                "vessel_type": "Product tanker",
+                "final_score": 0.91,
+                "spatial": 0.94,
+                "temporal": 0.9,
+                "trajectory": 0.92,
+                "behaviour": 0.7,
+                "distance_km": 2.3,
+                "time_diff_h": 0.9,
+                "dwell_min": 51,
+                "track": "M 122,188 L 144,170 L 170,154 L 194,142 L 212,136",
+                "evidence": [
+                    {"ok": True, "text": "Passed within 2.3 km of estimated source"},
+                    {"ok": True, "text": "Only 0.9 h from the source window midpoint"},
+                    {"ok": True, "text": "AIS track aligns with eastward drift trajectory"},
+                    {"ok": True, "text": "Vessel held a steady course through the source corridor"},
+                    {"ok": True, "text": "Strong match in both speed and bearing over the release window"},
+                ],
+            },
+            {
+                "mmsi": "412998231",
+                "imo": "9812734",
+                "name": "MV DELTA HORIZON",
+                "flag": "Panama",
+                "vessel_type": "Product tanker",
+                "final_score": 0.74,
+                "spatial": 0.82,
+                "temporal": 0.7,
+                "trajectory": 0.76,
+                "behaviour": 0.45,
+                "distance_km": 9.5,
+                "time_diff_h": 3.4,
+                "dwell_min": 20,
+                "track": "M 104,210 L 130,196 L 154,176 L 178,160",
+                "evidence": [
+                    {"ok": True, "text": "Passed within 9.5 km of estimated source"},
+                    {"ok": True, "text": "Within the wider source window"},
+                    {"ok": None, "text": "Trajectory partially compatible with the drift vector"},
+                ],
+            },
+            {
+                "mmsi": "563102887",
+                "imo": "9345981",
+                "name": "MV OSPREY TRADER",
+                "flag": "Liberia",
+                "vessel_type": "Bulk carrier",
+                "final_score": 0.48,
+                "spatial": 0.56,
+                "temporal": 0.42,
+                "trajectory": 0.5,
+                "behaviour": 0.31,
+                "distance_km": 19.3,
+                "time_diff_h": 7.4,
+                "dwell_min": 5,
+                "track": "M 252,110 L 246,130 L 236,150 L 224,164",
+                "evidence": [
+                    {"ok": None, "text": "19.3 km from estimated source"},
+                    {"ok": False, "text": "Outside the most likely source window"},
+                ],
+            },
+        ],
+        "metrics": {
+            "oil_iou": 0.88,
+            "oil_f1": 0.91,
+            "false_positive_rate": 0.04,
+            "source_error_km": 3.1,
+            "candidate_recall": 0.96,
+            "top3_recall": 1.0,
+            "processing_time_s": 34,
+        },
+    },
+    {
+        "id": "INV-2026-0008",
+        "status": "completed",
         "lodged_at": "2023-12-08T10:35:00Z",
         "satellite": {
             "platform": "Sentinel-1",
@@ -470,7 +571,7 @@ INVESTIGATIONS: List[Dict[str, Any]] = [
     },
 ]
 
-# Only the documented Chennai/Ennore spill is exposed by this demo dataset.
+# Keep the open-ocean demo spill visible first so the drift animation is easy to showcase.
 INVESTIGATIONS[:] = INVESTIGATIONS[:1]
 
 
