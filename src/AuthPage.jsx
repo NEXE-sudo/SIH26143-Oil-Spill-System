@@ -1,37 +1,36 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext.jsx";
 
-function validate(username, password, mode) {
+// 1. Updated to validate email instead of username
+function validate(email, password, mode) {
   const errors = {};
-  if (!username.trim()) {
-    errors.username = "Username is required";
-  } else if (username.trim().length < 3) {
-    errors.username = "Username must be at least 3 characters";
+  if (!email.trim()) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+    errors.email = "Must be a valid email address";
   }
 
   if (!password) {
     errors.password = "Password is required";
-  } else if (mode === "signup" && password.length < 8) {
-    errors.password = "Password must be at least 8 characters";
+  } else if (mode === "signup" && password.length < 6) { // Supabase default min length is 6
+    errors.password = "Password must be at least 6 characters";
   }
 
   return errors;
 }
 
 export default function AuthPage({ onAuthenticated }) {
-  const { login } = useAuth();
+  // 2. Pulled both login and signup from your new AuthContext
+  const { login, signup } = useAuth();
   
-  const [mode, setMode] = useState("signin"); // "signin" | "signup"
-  const [username, setUsername] = useState("");
+  const [mode, setMode] = useState("signin"); 
+  const [email, setEmail] = useState(""); // Changed username to email
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
-  // In-memory "database" for local session testing
-  const usersRef = useRef(new Map());
 
   function switchMode(next) {
     setMode(next);
@@ -40,10 +39,11 @@ export default function AuthPage({ onAuthenticated }) {
     setConfirmPassword("");
   }
 
-  function handleSubmit(e) {
+  // 3. Replaced fake timeout logic with real async Supabase calls
+  async function handleSubmit(e) {
     e.preventDefault();
     setFormError("");
-    const fieldErrors = validate(username, password, mode);
+    const fieldErrors = validate(email, password, mode);
 
     if (mode === "signup" && password !== confirmPassword) {
       fieldErrors.confirmPassword = "Passwords do not match";
@@ -54,41 +54,20 @@ export default function AuthPage({ onAuthenticated }) {
 
     setSubmitting(true);
 
-    setTimeout(() => {
-      const key = username.trim().toLowerCase();
-      // Generate a mock JWT token string safely
-      const mockToken = `mock_jwt_session_${btoa(key)}_${Date.now()}`;
-
+    try {
       if (mode === "signup") {
-        if (usersRef.current.has(key)) {
-          setFormError("That username is already taken.");
-          setSubmitting(false);
-          return;
-        }
-        usersRef.current.set(key, password);
-        setSubmitting(false);
-        login(mockToken);
-        if (onAuthenticated) onAuthenticated({ username: username.trim() });
-        return;
+        await signup(email, password); // Real Supabase Signup
+        if (onAuthenticated) onAuthenticated({ email: email.trim() });
+      } else {
+        await login(email, password); // Real Supabase Login
+        if (onAuthenticated) onAuthenticated({ email: email.trim() });
       }
-
-      // signin
-      const stored = usersRef.current.get(key);
-      if (stored !== undefined && stored !== password) {
-        setFormError("Incorrect username or password.");
-        setSubmitting(false);
-        return;
-      }
-
-      // If key wasn't in local map, allow mock sign-in for demo
-      if (stored === undefined) {
-        usersRef.current.set(key, password);
-      }
-
+    } catch (err) {
+      // Supabase will automatically send back errors like "Invalid login credentials"
+      setFormError(err.message || "Authentication failed.");
+    } finally {
       setSubmitting(false);
-      login(mockToken);
-      if (onAuthenticated) onAuthenticated({ username: username.trim() });
-    }, 400);
+    }
   }
 
   return (
@@ -152,16 +131,16 @@ export default function AuthPage({ onAuthenticated }) {
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <label className="auth-field">
-            <span className="auth-label">Username</span>
+            <span className="auth-label">Email Address</span>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-              placeholder="e.g. investigator07"
-              className={errors.username ? "invalid" : ""}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              placeholder="e.g. investigator07@ntro.gov"
+              className={errors.email ? "invalid" : ""}
             />
-            {errors.username && <span className="auth-error">{errors.username}</span>}
+            {errors.email && <span className="auth-error">{errors.email}</span>}
           </label>
 
           <label className="auth-field">
@@ -172,7 +151,7 @@ export default function AuthPage({ onAuthenticated }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                placeholder={mode === "signup" ? "At least 8 characters" : "Enter your password"}
+                placeholder={mode === "signup" ? "At least 6 characters" : "Enter your password"}
                 className={errors.password ? "invalid" : ""}
               />
               <button

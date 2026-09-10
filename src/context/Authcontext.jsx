@@ -1,40 +1,59 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../supabase';
 
-// Create the AuthContext
-const AuthContext = createContext(null);
+const AuthContext = createContext({});
 
-// Create the AuthProvider
 export const AuthProvider = ({ children }) => {
-  // Initialize state directly from localStorage to prevent UI flickering
-  const [token, setToken] = useState(() => localStorage.getItem('token'));
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Function to handle login
-  const login = (newToken) => {
-    setToken(newToken);
-    setIsAuthenticated(true);
-    localStorage.setItem('token', newToken);
+  useEffect(() => {
+    // 1. Check for active session when app loads
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    // 2. Listen for auth state changes (sign in, sign out)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Real Supabase Sign Up Function
+  const signup = async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) throw error;
+    return data;
   };
 
-  // Function to handle logout
-  const logout = () => {
-    setToken(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem('token');
+  // Real Supabase Login Function
+  const login = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  // Real Supabase Logout Function
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
   };
 
   return (
-    <AuthContext.Provider value={{ token, isAuthenticated, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
 
-// Create the useAuth custom hook with a safety check
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

@@ -1,8 +1,8 @@
-import React, { useMemo, useState,useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { STATUS_LABELS } from "./data/reports.js";
 import { useAuth } from "./context/AuthContext.jsx";
 import { listInvestigations } from "./lib/api.js";
-
+import AIAssistant from "./AIAssistant.jsx";
 
 function fmtShortDateTime(iso) {
   const d = new Date(iso);
@@ -78,8 +78,7 @@ export default function LandingPage({ reports, onOpenReport }) {
           <span className="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="18" height="18">
               <path
-                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4-1.5 6-0zm4-10c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2zm0 10c-1.1 0-2 0.9-2 2s0.9 2 2 2
-2-0.9 2-2-0.9-2-2-2z"
+                d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4-1.5 6-0zm4-10c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2zm0 10c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2z"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.6"
@@ -180,19 +179,23 @@ export default function LandingPage({ reports, onOpenReport }) {
           })}
         </div>
       </main>
+
+      {/* Floating AI Operational Copilot */}
+      <AIAssistant />
     </div>
   );
 }
 
 export { listInvestigations };
+
 // --- Helper Components ---
 
-function StatCard({ title, value, sub, icon }) {
+function StatCard({ label, value, sub, icon }) {
   return (
     <div className="stat-card">
-      <div className="stat-icon">{icon}</div>
+      {icon && <div className="stat-icon">{icon}</div>}
       <div className="stat-content">
-        <div className="stat-title">{title}</div>
+        <div className="stat-title">{label}</div>
         <div className="stat-value">{value}</div>
         {sub && <div className="stat-sub">{sub}</div>}
       </div>

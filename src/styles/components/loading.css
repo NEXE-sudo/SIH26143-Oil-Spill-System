@@ -1,0 +1,91 @@
+/* ---------------- Empty / loading states ---------------- */
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.empty-inner {
+  max-width: 420px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-icon {
+  color: var(--muted-2);
+  margin-bottom: 18px;
+}
+
+.empty-inner h1 {
+  font-size: 19px;
+  color: var(--text);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.empty-inner p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+.loading-inner {
+  max-width: 380px;
+  text-align: left;
+}
+
+.loading-inner h1 {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.pipeline-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pipeline-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted-2);
+}
+
+.pipeline-list li.active {
+  color: var(--text);
+}
+
+.pipeline-list li.done {
+  color: var(--good);
+}
+
+.pipeline-marker {
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.spinner {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted-2);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
