@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
   Circle,
   CircleMarker,
+  GeoJSON,
   MapContainer,
   Polyline,
   TileLayer,
+  ZoomControl,
   useMap,
 } from "react-leaflet";
 import {
@@ -30,8 +32,6 @@ const LAYERS = [
   { id: "source", label: "Source probability", default: true },
   { id: "ais", label: "AIS vessels", default: true },
   { id: "tracks", label: "Vessel tracks", default: true },
-  { id: "wind", label: "Wind vectors (ERA5)", default: true },
-  { id: "current", label: "Ocean currents (Copernicus)", default: true },
   { id: "drift", label: "Drift hindcast", default: true },
 ];
 
@@ -105,6 +105,12 @@ function fmtDate(iso) {
 }
 function fmtDateTime(iso) {
   return `${fmtDate(iso)} · ${fmtUTC(iso)}`;
+}
+
+function fmtCoordinate(value, axis, digits = 3) {
+  const hemisphere =
+    axis === "lat" ? (value >= 0 ? "N" : "S") : value >= 0 ? "E" : "W";
+  return `${Math.abs(value).toFixed(digits)}°${hemisphere}`;
 }
 
 function scoreColor(v) {
@@ -315,8 +321,8 @@ function TopBar({ inv, onClose }) {
                 {fmtDateTime(report.lodged_at)}
               </p>
               <p>
-                Spill centroid {report.spill.centroid.lat.toFixed(3)}°N,{" "}
-                {report.spill.centroid.lon.toFixed(3)}°E ·{" "}
+                Spill centroid {fmtCoordinate(report.spill.centroid.lat, "lat")}
+                , {fmtCoordinate(report.spill.centroid.lon, "lon")} ·{" "}
                 {report.spill.area_km2.toFixed(1)} km²
               </p>
               <p>
@@ -338,8 +344,8 @@ function KeyFindings({ inv, topVessel }) {
       <div className="kf-item">
         <div className="kf-label">Spill coordinates</div>
         <div className="kf-value">
-          {inv.spill.centroid.lat.toFixed(3)}°N,{" "}
-          {inv.spill.centroid.lon.toFixed(3)}°E
+          {fmtCoordinate(inv.spill.centroid.lat, "lat")},{" "}
+          {fmtCoordinate(inv.spill.centroid.lon, "lon")}
         </div>
       </div>
       <div className="kf-sep" />
@@ -350,7 +356,8 @@ function KeyFindings({ inv, topVessel }) {
           {fmtUTC(inv.source.window_end)}
         </div>
         <div className="kf-sub">
-          {inv.source.lat.toFixed(3)}°N, {inv.source.lon.toFixed(3)}°E
+          {fmtCoordinate(inv.source.lat, "lat")},{" "}
+          {fmtCoordinate(inv.source.lon, "lon")}
         </div>
       </div>
       <div className="kf-sep" />
@@ -452,6 +459,24 @@ function MapPanel({
     }))
     .filter((v) => v.points.length > 1);
 
+  const vesselPositions = vesselTracks.map((v) => {
+    const progress = driftIndex / Math.max(1, (drift?.track?.length || 2) - 1);
+    const scaled = progress * (v.points.length - 1);
+    const lower = Math.floor(scaled);
+    const upper = Math.min(v.points.length - 1, lower + 1);
+    const fraction = scaled - lower;
+    return {
+      ...v,
+      position: [
+        v.points[lower][0] +
+          (v.points[upper][0] - v.points[lower][0]) * fraction,
+        v.points[lower][1] +
+          (v.points[upper][1] - v.points[lower][1]) * fraction,
+      ],
+      trail: v.points.slice(0, upper + 1),
+    };
+  });
+
   const jumpBySteps = (stepDelta) => {
     if (!drift || !drift.track || drift.track.length === 0) return;
     setIsPlaying(false);
@@ -471,10 +496,6 @@ function MapPanel({
     12000,
     inv.spill.area_km2 * 2400 + pulse * 250,
   );
-  const oilRadiusMeters = Math.max(
-    1800,
-    inv.spill.area_km2 * 900 + pulse * 120,
-  );
 
   return (
     <section className="map-panel">
@@ -486,24 +507,12 @@ function MapPanel({
           zoomControl={false}
           className="live-map"
         >
+          <ZoomControl position="bottomright" />
           <MapCenterSync center={activeCenter} />
           <TileLayer
             attribution="Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           />
-
-          {(!focusMode || layers.oil) && layers.oil && (
-            <Circle
-              center={activeCenter}
-              radius={oilRadiusMeters}
-              pathOptions={{
-                color: "#fb7185",
-                fillColor: "#fb7185",
-                fillOpacity: focusMode ? 0.54 : 0.34,
-                weight: 1.4,
-              }}
-            />
-          )}
 
           {layers.oil && (
             <Circle
@@ -515,6 +524,19 @@ function MapPanel({
                 fillOpacity: focusMode ? 0.12 : 0.06,
                 weight: 1,
                 dashArray: "8 8",
+              }}
+            />
+          )}
+
+          {layers.oil && currentDriftStep?.polygon?.startsWith("{") && (
+            <GeoJSON
+              key={`${currentDriftStep.timestamp}-${currentDriftStep.polygon}`}
+              data={JSON.parse(currentDriftStep.polygon)}
+              style={{
+                color: "#fb7185",
+                fillColor: "#fb7185",
+                fillOpacity: focusMode ? 0.54 : 0.34,
+                weight: 1.4,
               }}
             />
           )}
@@ -563,44 +585,6 @@ function MapPanel({
             />
           )}
 
-          {layers.wind && currentDriftStep?.wind && (
-            <Polyline
-              positions={[
-                [currentDriftStep.centroid.lat, currentDriftStep.centroid.lon],
-                [
-                  currentDriftStep.centroid.lat +
-                    currentDriftStep.wind.v_m_s * 0.015,
-                  currentDriftStep.centroid.lon +
-                    currentDriftStep.wind.u_m_s * 0.015,
-                ],
-              ]}
-              pathOptions={{
-                color: "#7dd3fc",
-                weight: 2,
-                opacity: 0.9,
-              }}
-            />
-          )}
-
-          {layers.current && currentDriftStep?.current && (
-            <Polyline
-              positions={[
-                [currentDriftStep.centroid.lat, currentDriftStep.centroid.lon],
-                [
-                  currentDriftStep.centroid.lat +
-                    currentDriftStep.current.v_m_s * 0.025,
-                  currentDriftStep.centroid.lon +
-                    currentDriftStep.current.u_m_s * 0.025,
-                ],
-              ]}
-              pathOptions={{
-                color: "#34d399",
-                weight: 2,
-                opacity: 0.9,
-              }}
-            />
-          )}
-
           {layers.tracks &&
             vesselTracks.map((v) => (
               <Polyline
@@ -624,12 +608,11 @@ function MapPanel({
             ))}
 
           {layers.ais &&
-            vesselTracks.map((v) => {
-              const last = v.points[v.points.length - 1];
+            vesselPositions.map((v) => {
               return (
                 <CircleMarker
                   key={v.mmsi}
-                  center={last}
+                  center={v.position}
                   radius={v.mmsi === selectedVessel ? 7 : 5}
                   pathOptions={{
                     color: v.mmsi === selectedVessel ? "#58c4ff" : "#dbe2ea",
@@ -645,6 +628,15 @@ function MapPanel({
                 />
               );
             })}
+
+          {layers.tracks &&
+            vesselPositions.map((v) => (
+              <Polyline
+                key={`moving-${v.mmsi}`}
+                positions={v.trail}
+                pathOptions={{ color: "#f8fafc", weight: 2, opacity: 0.75 }}
+              />
+            ))}
         </MapContainer>
 
         <div className="map-readout">
@@ -661,12 +653,6 @@ function MapPanel({
         </div>
 
         <div className="map-legend">
-          <span>
-            <i className="legend-swatch wind" /> Wind
-          </span>
-          <span>
-            <i className="legend-swatch current" /> Current
-          </span>
           <span>
             <i className="legend-swatch drift" /> Drift
           </span>
@@ -738,9 +724,9 @@ function MapPanel({
               }}
             />
             <div className="drift-range-labels">
-              <span>{fmtUTC(drift.track[0].timestamp)}</span>
+              <span>{fmtDateTime(drift.track[0].timestamp)}</span>
               <span>
-                {fmtUTC(drift.track[drift.track.length - 1].timestamp)}
+                {fmtDateTime(drift.track[drift.track.length - 1].timestamp)}
               </span>
             </div>
           </div>
@@ -823,19 +809,20 @@ function EvidenceRail({
           <Stat label="Minor axis" value={`${inv.spill.minor_axis_km} km`} />
         </div>
         <div className="coord-line">
-          Centroid {inv.spill.centroid.lat.toFixed(3)}°N,{" "}
-          {inv.spill.centroid.lon.toFixed(3)}°E
+          Centroid {fmtCoordinate(inv.spill.centroid.lat, "lat")},{" "}
+          {fmtCoordinate(inv.spill.centroid.lon, "lon")}
         </div>
       </RailSection>
 
       <RailSection title="Source estimation">
         <div className="coord-line coord-line-lg">
-          {source.lat.toFixed(2)}°N, {source.lon.toFixed(2)}°E
+          {fmtCoordinate(source.lat, "lat", 2)},{" "}
+          {fmtCoordinate(source.lon, "lon", 2)}
         </div>
         <div className="source-window">
-          <span>{fmtUTC(source.window_start)}</span>
+          <span>{fmtDateTime(source.window_start)}</span>
           <span className="window-bar" />
-          <span>{fmtUTC(source.window_end)}</span>
+          <span>{fmtDateTime(source.window_end)}</span>
         </div>
         <p className="hint-text">
           Estimated from a backward drift hindcast using wind and current
