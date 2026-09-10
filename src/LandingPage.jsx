@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { STATUS_LABELS } from "./data/reports.js";
+import { useAuth } from "./context/AuthContext.jsx";
 
 // ---------------------------------------------------------------------------
 // Landing dashboard: shows the four headline counters (lodged, pending,
@@ -19,13 +20,15 @@ function scoreColor(v) {
   return "var(--muted-2)";
 }
 
-export default function LandingPage({ reports, loadError, onOpenReport, session, onSignOut }) {
+export default function LandingPage({
+  reports,
+  loadError,
+  onOpenReport,
+  session,
+  onSignOut,
+}) {
   const [filter, setFilter] = useState("all");
-  const [internalReports, setInternalReports] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [fetchError, setFetchError] = useState(null);
-
-  const { token, isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
   const recent = useMemo(() => reports, [reports]);
 
@@ -43,34 +46,11 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
     );
   }, [recent, filter]);
 
-  useEffect(() => {
-    const fetchInternalReports = async () => {
-      if (!isAuthenticated) {
-        setFetchError("User not authenticated");
-        return;
-      }
-
-      setLoading(true);
-      setFetchError(null);
-
-      try {
-        const response = await listInvestigations(token);
-        setInternalReports(response);
-      } catch (error) {
-        setFetchError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInternalReports();
-  }, [isAuthenticated, token, setInternalReports, setFetchError, setLoading]);
-
   return (
     <div className="landing">
-      {fetchError && (
+      {loadError && (
         <div className="landing-banner" role="status">
-          Backend unreachable — showing sample data. ({fetchError})
+          Backend unreachable — showing sample data. ({loadError})
         </div>
       )}
       <header className="landing-topbar">
@@ -105,8 +85,10 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
 
         {isAuthenticated && (
           <div className="landing-session">
-            <span className="session-user">User: {token ? token.username : "Guest"}</span>
-            <button className="btn-signout" onClick={logout}>
+            <span className="session-user">
+              User: {session?.user?.email || "Authenticated"}
+            </span>
+            <button className="btn-signout" onClick={onSignOut || logout}>
               Sign out
             </button>
           </div>
@@ -217,8 +199,6 @@ export default function LandingPage({ reports, loadError, onOpenReport, session,
   );
 }
 
-export { listInvestigations };
-
 // --- Helper Components ---
 
 function StatCard({ label, value, sub, icon }) {
@@ -235,5 +215,9 @@ function StatCard({ label, value, sub, icon }) {
 }
 
 function StatusPill({ status }) {
-  return <span className={"status-pill status-" + status}>{STATUS_LABELS[status]}</span>;
+  return (
+    <span className={"status-pill status-" + status}>
+      {STATUS_LABELS[status]}
+    </span>
+  );
 }

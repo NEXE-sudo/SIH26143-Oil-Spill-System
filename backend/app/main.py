@@ -12,13 +12,13 @@ src/lib/api.js (VITE_API_BASE_URL).
 
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import attribution, drift, investigations, reports, scenes, spills, vessels
+from app.auth import get_current_user
 from app.config import CORS_ALLOW_ORIGINS
 
-from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.config import get_db
 from sqlalchemy import text
@@ -40,13 +40,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(investigations.router)
-app.include_router(scenes.router)
-app.include_router(spills.router)
-app.include_router(drift.router)
-app.include_router(vessels.router)
-app.include_router(attribution.router)
-app.include_router(reports.router)
+app.include_router(
+    investigations.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    scenes.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    spills.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    drift.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    vessels.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    attribution.router,
+    dependencies=[Depends(get_current_user)],
+)
+app.include_router(
+    reports.router,
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @app.get("/health", tags=["meta"])

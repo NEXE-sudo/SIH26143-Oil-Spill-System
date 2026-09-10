@@ -4,6 +4,7 @@ pydantic>=2.7
 python-multipart>=0.0.9
 pyyaml>=6.0
 sqlalchemy>=2.0
+PyJWT>=2.10.1
 matplotlib>=3.8
 reportlab>=4.0
 global-land-mask>=1.0.0

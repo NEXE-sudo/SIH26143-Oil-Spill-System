@@ -4,23 +4,16 @@ import LandingPage from "./LandingPage.jsx";
 import InvestigationDetail from "./InvestigationDetail.jsx";
 import { REPORTS } from "./data/reports.js";
 import { listInvestigations } from "./lib/api.js";
+import { useAuth } from "./context/AuthContext.jsx";
 
 // ---------------------------------------------------------------------------
-// Top-level app: gates everything behind AuthPage (username + password
-// only). Once signed in, shows the reports landing page, and opens the
-// full investigation detail view (map + evidence dashboard) as a
-// full-screen overlay when a report card is clicked.
-//
-// Data comes from the FastAPI backend (backend/app/, see src/lib/api.js).
-// If the backend isn't running (e.g. local frontend-only work), this falls
-// back to the bundled mock dataset in src/data/reports.js so the UI still
-// renders.
+// Top-level app: gates everything behind Supabase auth. Once the session is
+// active, the app loads the investigations list and opens the detail view.
 // ---------------------------------------------------------------------------
 
 export default function App() {
-  const [session, setSession] = useState(null); // { username } | null
+  const { session, loading, logout } = useAuth();
   const [openReportId, setOpenReportId] = useState(null);
-
   const [reports, setReports] = useState(REPORTS);
   const [loadError, setLoadError] = useState(null);
 
@@ -37,8 +30,6 @@ export default function App() {
       })
       .catch((err) => {
         if (!cancelled) {
-          // Backend not reachable — keep showing the mock dataset so the
-          // dashboard still works, but surface the failure.
           console.warn("Falling back to mock investigations:", err.message);
           setLoadError(err.message);
         }
@@ -49,8 +40,20 @@ export default function App() {
     };
   }, [session]);
 
+  if (loading) {
+    return (
+      <div className="auth-shell">
+        <div className="auth-card">
+          <div className="auth-brand">
+            <div className="brand-title">Loading session…</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!session) {
-    return <AuthPage onAuthenticated={(user) => setSession(user)} />;
+    return <AuthPage />;
   }
 
   const openReport = reports.find((r) => r.id === openReportId) || null;
@@ -62,7 +65,7 @@ export default function App() {
         loadError={loadError}
         onOpenReport={(r) => setOpenReportId(r.id)}
         session={session}
-        onSignOut={() => setSession(null)}
+        onSignOut={logout}
       />
 
       {openReport && (

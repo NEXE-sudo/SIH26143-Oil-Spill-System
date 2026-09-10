@@ -2,12 +2,26 @@
 // Frontend API client for the FastAPI backend under backend/app/.
 // ---------------------------------------------------------------------------
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+import { supabase } from "../supabase.js";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+async function getSupabaseAccessToken() {
+  try {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    return session?.access_token ?? null;
+  } catch (error) {
+    console.warn("Supabase session lookup failed:", error);
+    return null;
+  }
+}
 
 async function request(path, options = {}) {
-  const token = localStorage.getItem('token');
+  const token = await getSupabaseAccessToken();
 
-  // Automatically attach Authorization header if token exists in localStorage
   const headers = {
     "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -21,7 +35,9 @@ async function request(path, options = {}) {
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    const error = new Error(`API ${options.method || "GET"} ${path} failed: ${res.status} ${body}`);
+    const error = new Error(
+      `API ${options.method || "GET"} ${path} failed: ${res.status} ${body}`,
+    );
     error.status = res.status;
     throw error;
   }
@@ -49,7 +65,9 @@ export function createInvestigation(payload) {
     body: JSON.stringify(payload),
   }).catch((error) => {
     if (error.status === 429) {
-      console.error("Rate limit exceeded on createInvestigation. Please try again later.");
+      console.error(
+        "Rate limit exceeded on createInvestigation. Please try again later.",
+      );
     }
     throw error;
   });
@@ -107,7 +125,9 @@ export function driftForecast(payload) {
 
 /** GET /api/vessels/candidates?investigation_id=... */
 export function getVesselCandidates(investigationId) {
-  return request(`/api/vessels/candidates?investigation_id=${encodeURIComponent(investigationId)}`);
+  return request(
+    `/api/vessels/candidates?investigation_id=${encodeURIComponent(investigationId)}`,
+  );
 }
 
 /** GET /api/vessels/{mmsi} */
@@ -124,7 +144,9 @@ export function runAttribution(payload) {
     body: JSON.stringify(payload),
   }).catch((error) => {
     if (error.status === 429) {
-      console.error("Rate limit exceeded on runAttribution. Please try again later.");
+      console.error(
+        "Rate limit exceeded on runAttribution. Please try again later.",
+      );
     }
     throw error;
   });

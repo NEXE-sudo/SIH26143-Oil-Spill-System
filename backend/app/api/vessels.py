@@ -37,16 +37,6 @@ def get_candidates(
     return VesselCandidatesResponse(investigation_id=investigation_id, candidates=inv["vessels"])
 
 
-@router.get("/candidates", response_model=VesselCandidatesResponse)
-def get_candidates(
-    investigation_id: str = Query(..., description="e.g. INV-2026-0001"),
-) -> VesselCandidatesResponse:
-    inv = store.get_by_id(investigation_id)
-    if inv is None:
-        raise HTTPException(status_code=404, detail=f"Investigation {investigation_id} not found")
-    return VesselCandidatesResponse(investigation_id=investigation_id, candidates=inv["vessels"])
-
-
 @router.get("/{mmsi}", response_model=VesselDetailResponse)
 def get_vessel(mmsi: str, db: Session = Depends(get_db)) -> VesselDetailResponse:
     vessel = db.get(Vessel, mmsi)
