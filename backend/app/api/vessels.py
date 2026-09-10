@@ -39,38 +39,61 @@ def get_candidates(
 
 @router.get("/{mmsi}", response_model=VesselDetailResponse)
 def get_vessel(mmsi: str, db: Session = Depends(get_db)) -> VesselDetailResponse:
-    vessel = db.get(Vessel, mmsi)
-    if vessel is None:
-        raise HTTPException(status_code=404, detail=f"Vessel {mmsi} not found")
+    vessel = None
+    ais_track: list[AISPoint] = []
 
-    points = (
-        db.query(AISPointRecord)
-        .filter(AISPointRecord.mmsi == mmsi)
-        .order_by(AISPointRecord.timestamp)
-        .all()
-    )
-    ais_track = [
-        AISPoint(
-            timestamp=p.timestamp.isoformat(),
-            lat=p.lat,
-            lon=p.lon,
-            sog_knots=p.sog_knots,
-            cog_deg=p.cog_deg,
-            heading_deg=p.heading_deg,
-            nav_status=p.nav_status,
+    if db is not None:
+        try:
+            vessel = db.get(Vessel, mmsi)
+            if vessel is not None:
+                points = (
+                    db.query(AISPointRecord)
+                    .filter(AISPointRecord.mmsi == mmsi)
+                    .order_by(AISPointRecord.timestamp)
+                    .all()
+                )
+                ais_track = [
+                    AISPoint(
+                        timestamp=p.timestamp.isoformat(),
+                        lat=p.lat,
+                        lon=p.lon,
+                        sog_knots=p.sog_knots,
+                        cog_deg=p.cog_deg,
+                        heading_deg=p.heading_deg,
+                        nav_status=p.nav_status,
+                    )
+                    for p in points
+                ]
+        except Exception:
+            vessel = None
+
+    if vessel is None:
+        mock_vessel = next(
+            (
+                v
+                for inv in store.get_all()
+                for v in inv["vessels"]
+                if v["mmsi"] == mmsi
+            ),
+            None,
         )
-        for p in points
+        if mock_vessel is None:
+            raise HTTPException(status_code=404, detail=f"Vessel {mmsi} not found")
+
+        vessel = mock_vessel
+
+    involved_in = [
+        inv["id"]
+        for inv in store.get_all()
+        if any(v["mmsi"] == mmsi for v in inv["vessels"])
     ]
 
-    # Still mock-sourced — real investigations/attribution aren't persisted yet.
-    involved_in = [inv["id"] for inv in store.get_all() if any(v["mmsi"] == mmsi for v in inv["vessels"])]
-
     return VesselDetailResponse(
-        mmsi=vessel.mmsi,
-        imo=vessel.imo,
-        name=vessel.name,
-        flag=vessel.flag,
-        vessel_type=vessel.vessel_type,
+        mmsi=vessel["mmsi"] if isinstance(vessel, dict) else vessel.mmsi,
+        imo=vessel["imo"] if isinstance(vessel, dict) else vessel.imo,
+        name=vessel["name"] if isinstance(vessel, dict) else vessel.name,
+        flag=vessel["flag"] if isinstance(vessel, dict) else vessel.flag,
+        vessel_type=vessel["vessel_type"] if isinstance(vessel, dict) else vessel.vessel_type,
         ais_track=ais_track,
         involved_in=involved_in,
     )

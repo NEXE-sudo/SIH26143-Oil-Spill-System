@@ -25,11 +25,21 @@ CORS_ALLOW_ORIGINS = os.environ.get(
 
 ENV = os.environ.get("APP_ENV", "development")
 
+PLACEHOLDER_DATABASE_URLS = {
+    "postgresql://user:password@host:5432/dbname",
+}
+
 DATABASE_URL = os.environ.get("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.strip() in PLACEHOLDER_DATABASE_URLS:
+    DATABASE_URL = None
 
 if DATABASE_URL:
-    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    try:
+        engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    except Exception:
+        engine = None
+        SessionLocal = None
 else:
     engine = None
     SessionLocal = None
