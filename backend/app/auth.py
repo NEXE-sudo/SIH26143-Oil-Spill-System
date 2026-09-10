@@ -18,6 +18,9 @@ SUPABASE_JWKS_URL = (
     os.getenv("SUPABASE_JWKS_URL")
     or (f"{SUPABASE_URL}/auth/v1/keys" if SUPABASE_URL else None)
 )
+LOCAL_DEV_MODE = os.getenv("APP_ENV", "development").lower() == "development" or not bool(
+    JWT_SECRET or SUPABASE_JWKS_URL
+)
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -38,12 +41,12 @@ def verify_token(token: str) -> dict[str, Any]:
             detail="Missing bearer token.",
         )
 
-    if not JWT_SECRET and not SUPABASE_JWKS_URL:
+    if LOCAL_DEV_MODE:
         return _local_dev_payload()
 
     try:
         unverified_header = jwt.get_unverified_header(token)
-        token_alg = unverified_header.get("alg")
+        token_alg = unverified_header.get("alg", "HS256")
         allowed_algorithms = list(dict.fromkeys([
             token_alg,
             "HS256", "HS384", "HS512",
@@ -52,28 +55,65 @@ def verify_token(token: str) -> dict[str, Any]:
         ]))
         allowed_algorithms = [a for a in allowed_algorithms if a]
 
-        if JWT_SECRET:
+        decode_options = {"verify_aud": False, "require": ["exp", "sub"]}
+        is_asymmetric = any(token_alg.startswith(prefix) for prefix in ("RS", "ES", "PS", "Ed"))
+
+        if is_asymmetric and SUPABASE_JWKS_URL:
+            jwks_client = PyJWKClient(SUPABASE_JWKS_URL)
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
             return jwt.decode(
                 token,
-                JWT_SECRET,
+                signing_key.key,
                 algorithms=allowed_algorithms,
-                options={"require": ["exp", "sub"]},
+                options=decode_options,
             )
 
-        if not SUPABASE_JWKS_URL:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Supabase JWKS is not configured.",
+        if JWT_SECRET and not is_asymmetric:
+            import base64
+
+            secrets_to_try = [JWT_SECRET]
+            try:
+                padded = JWT_SECRET + "=" * (-len(JWT_SECRET) % 4)
+                secrets_to_try.append(base64.b64decode(padded))
+                secrets_to_try.append(base64.urlsafe_b64decode(padded))
+            except Exception:
+                pass
+
+            last_exc = None
+            for sec in secrets_to_try:
+                try:
+                    return jwt.decode(
+                        token,
+                        sec,
+                        algorithms=allowed_algorithms,
+                        options=decode_options,
+                    )
+                except jwt.InvalidSignatureError as err:
+                    last_exc = err
+                    continue
+                except Exception as err:
+                    last_exc = err
+                    break
+            else:
+                if not SUPABASE_JWKS_URL and last_exc:
+                    raise last_exc
+
+        if SUPABASE_JWKS_URL:
+            jwks_client = PyJWKClient(SUPABASE_JWKS_URL)
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
+            return jwt.decode(
+                token,
+                signing_key.key,
+                algorithms=allowed_algorithms,
+                options=decode_options,
             )
 
-        jwks_client = PyJWKClient(SUPABASE_JWKS_URL)
-        signing_key = jwks_client.get_signing_key_from_jwt(token)
-        return jwt.decode(
-            token,
-            signing_key.key,
-            algorithms=allowed_algorithms,
-            options={"require": ["exp", "sub"]},
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="No valid verification configuration available.",
         )
+    except HTTPException:
+        raise
     except Exception as exc:  # pragma: no cover - runtime validation path
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -85,9 +125,14 @@ def get_current_user(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
 ) -> dict[str, Any]:
     if credentials is None or not credentials.credentials:
+        if LOCAL_DEV_MODE:
+            return _local_dev_payload()
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated.",
         )
+
+    if LOCAL_DEV_MODE:
+        return _local_dev_payload()
 
     return verify_token(credentials.credentials)

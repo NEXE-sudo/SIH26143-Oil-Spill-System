@@ -23,6 +23,8 @@ from app.data import mock_investigations as store  # noqa: E402
 from app.services.ais import candidate_vessels  # noqa: E402
 from app.services.attribution import score_and_rank  # noqa: E402
 from app.services.drift import hindcast  # noqa: E402
+import importlib
+import app.auth as auth_module
 
 client = TestClient(app)
 
@@ -34,6 +36,18 @@ def test_health():
     r = client.get("/health")
     assert r.status_code == 200
     assert r.json() == {"status": "ok"}
+
+
+def test_local_dev_auth_falls_back_to_mock_user(monkeypatch):
+    monkeypatch.setenv("APP_ENV", "development")
+    monkeypatch.setenv("SUPABASE_JWT_SECRET", "")
+    monkeypatch.setenv("SUPABASE_JWKS_URL", "")
+    monkeypatch.setenv("SUPABASE_URL", "")
+    importlib.reload(auth_module)
+
+    payload = auth_module.verify_token("invalid-token")
+    assert payload["sub"] == "local-dev"
+    assert payload["role"] == "dev"
 
 
 def test_list_investigations():

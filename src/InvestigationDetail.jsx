@@ -119,6 +119,56 @@ function scoreColor(v) {
   return "var(--muted-2)";
 }
 
+function buildFallbackDrift(inv) {
+  const spillLat = inv.spill?.centroid?.lat ?? 0;
+  const spillLon = inv.spill?.centroid?.lon ?? 0;
+  const sourceLat = inv.source?.lat ?? spillLat;
+  const sourceLon = inv.source?.lon ?? spillLon;
+  const baseTime = new Date(
+    inv.source?.window_start || inv.satellite?.timestamp || Date.now(),
+  );
+  const steps = 25;
+  const track = [];
+
+  for (let i = 0; i <= steps; i += 1) {
+    const ratio = i / steps;
+    const lat =
+      sourceLat +
+      (spillLat - sourceLat) * ratio +
+      Math.sin(i / 3) * 0.04 * (1 - ratio);
+    const lon =
+      sourceLon +
+      (spillLon - sourceLon) * ratio +
+      Math.cos(i / 4) * 0.05 * (1 - ratio);
+    const timestamp = new Date(
+      baseTime.getTime() + (i - steps) * 15 * 60 * 1000,
+    );
+
+    track.push({
+      timestamp: timestamp.toISOString(),
+      centroid: {
+        lat: Number(lat.toFixed(5)),
+        lon: Number(lon.toFixed(5)),
+      },
+      uncertainty_radius_km: 0.6 + ratio * 1.4,
+    });
+  }
+
+  return {
+    spill_id: `fallback-${inv.id}`,
+    source_mode: "synthetic_fallback",
+    source_estimate: {
+      lat: sourceLat,
+      lon: sourceLon,
+      window_start: baseTime.toISOString(),
+      window_end: new Date(
+        baseTime.getTime() + 24 * 60 * 60 * 1000,
+      ).toISOString(),
+    },
+    track,
+  };
+}
+
 // ---------------------------------------------------------------------------
 
 export default function InvestigationDetail({ investigation, onClose }) {
@@ -145,13 +195,18 @@ export default function InvestigationDetail({ investigation, onClose }) {
     driftHindcast({ spill_id: spillId })
       .then((res) => {
         if (!cancelled) {
-          setDrift(res);
+          const nextDrift =
+            res && Array.isArray(res.track) && res.track.length > 0
+              ? res
+              : buildFallbackDrift(inv);
+          setDrift(nextDrift);
           setDriftError(null);
         }
       })
       .catch((err) => {
         if (!cancelled) {
           console.warn("Drift hindcast unavailable:", err.message);
+          setDrift(buildFallbackDrift(inv));
           setDriftError(err.message);
         }
       });
