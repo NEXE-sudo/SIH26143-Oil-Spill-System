@@ -12,12 +12,16 @@ over to real persistence means swapping its mock-data calls for a
 SessionLocal() + query, using the models below.
 """
 
+
 from __future__ import annotations
 
 import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
+
+from dotenv import load_dotenv
+load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./oilspill.db")
 

@@ -9,9 +9,14 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 BACKEND_ROOT = Path(__file__).resolve().parent.parent
 CONFIGS_DIR = BACKEND_ROOT.parent / "configs"
+
+load_dotenv(BACKEND_ROOT / ".env")
 
 CORS_ALLOW_ORIGINS = os.environ.get(
     "CORS_ALLOW_ORIGINS",
@@ -19,3 +24,23 @@ CORS_ALLOW_ORIGINS = os.environ.get(
 ).split(",")
 
 ENV = os.environ.get("APP_ENV", "development")
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+else:
+    engine = None
+    SessionLocal = None
+
+
+def get_db():
+    """Dependency helper to yield a database session per API request."""
+    if SessionLocal is None:
+        raise RuntimeError("DATABASE_URL is not configured in environment.")
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

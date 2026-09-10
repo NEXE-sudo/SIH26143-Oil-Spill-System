@@ -18,6 +18,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import attribution, drift, investigations, reports, scenes, spills, vessels
 from app.config import CORS_ALLOW_ORIGINS
 
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from app.config import get_db
+from sqlalchemy import text
+
 app = FastAPI(
     title="SIH26143 Oil Spill Attribution API",
     description=(
@@ -47,3 +52,10 @@ app.include_router(reports.router)
 @app.get("/health", tags=["meta"])
 def health() -> dict:
     return {"status": "ok"}
+
+
+
+@app.get("/db-check", tags=["meta"])
+def db_check(db: Session = Depends(get_db)):
+    result = db.execute(text("SELECT 1")).scalar()
+    return {"status": "connected", "result": result}
