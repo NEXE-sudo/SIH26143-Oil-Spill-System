@@ -1,0 +1,2049 @@
+{
+  "spill_id": "SPL-2026-0005",
+  "source_estimate": {
+    "lat": 11.8409,
+    "lon": 93.07861,
+    "window_start": "2026-08-25T10:35:00Z",
+    "window_end": "2026-08-25T11:20:00Z"
+  },
+  "source_probability_heatmap": null,
+  "track": [
+    {
+      "timestamp": "2026-08-25T10:35:00Z",
+      "centroid": {
+        "lat": 11.8409,
+        "lon": 93.07861
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.9,
+      "wind": {
+        "u_m_s": -1.4864,
+        "v_m_s": -0.8537,
+        "speed_m_s": 1.7141,
+        "direction_deg": 209.9
+      },
+      "current": {
+        "u_m_s": -0.6689,
+        "v_m_s": -0.3842,
+        "speed_m_s": 0.7713,
+        "direction_deg": 209.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T10:50:00Z",
+      "centroid": {
+        "lat": 11.83859,
+        "lon": 93.07477
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.75,
+      "wind": {
+        "u_m_s": -1.4855,
+        "v_m_s": -0.8521,
+        "speed_m_s": 1.7126,
+        "direction_deg": 209.8
+      },
+      "current": {
+        "u_m_s": -0.6685,
+        "v_m_s": -0.3835,
+        "speed_m_s": 0.7707,
+        "direction_deg": 209.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T11:05:00Z",
+      "centroid": {
+        "lat": 11.83662,
+        "lon": 93.07127
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.6,
+      "wind": {
+        "u_m_s": -1.4848,
+        "v_m_s": -0.8507,
+        "speed_m_s": 1.7112,
+        "direction_deg": 209.8
+      },
+      "current": {
+        "u_m_s": -0.6682,
+        "v_m_s": -0.3828,
+        "speed_m_s": 0.77,
+        "direction_deg": 209.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T11:20:00Z",
+      "centroid": {
+        "lat": 11.8343,
+        "lon": 93.06742
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.45,
+      "wind": {
+        "u_m_s": -1.484,
+        "v_m_s": -0.849,
+        "speed_m_s": 1.7097,
+        "direction_deg": 209.8
+      },
+      "current": {
+        "u_m_s": -0.6678,
+        "v_m_s": -0.3821,
+        "speed_m_s": 0.7694,
+        "direction_deg": 209.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T11:35:00Z",
+      "centroid": {
+        "lat": 11.83201,
+        "lon": 93.06361
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.3,
+      "wind": {
+        "u_m_s": -1.4832,
+        "v_m_s": -0.8474,
+        "speed_m_s": 1.7082,
+        "direction_deg": 209.7
+      },
+      "current": {
+        "u_m_s": -0.6674,
+        "v_m_s": -0.3813,
+        "speed_m_s": 0.7687,
+        "direction_deg": 209.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T11:50:00Z",
+      "centroid": {
+        "lat": 11.83008,
+        "lon": 93.06017
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.15,
+      "wind": {
+        "u_m_s": -1.4825,
+        "v_m_s": -0.8459,
+        "speed_m_s": 1.7069,
+        "direction_deg": 209.7
+      },
+      "current": {
+        "u_m_s": -0.6671,
+        "v_m_s": -0.3807,
+        "speed_m_s": 0.7681,
+        "direction_deg": 209.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T12:05:00Z",
+      "centroid": {
+        "lat": 11.82797,
+        "lon": 93.05654
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 14.0,
+      "wind": {
+        "u_m_s": -1.4819,
+        "v_m_s": -0.8443,
+        "speed_m_s": 1.7055,
+        "direction_deg": 209.7
+      },
+      "current": {
+        "u_m_s": -0.6668,
+        "v_m_s": -0.3799,
+        "speed_m_s": 0.7675,
+        "direction_deg": 209.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T12:20:00Z",
+      "centroid": {
+        "lat": 11.82579,
+        "lon": 93.05286
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.85,
+      "wind": {
+        "u_m_s": -1.4812,
+        "v_m_s": -0.8427,
+        "speed_m_s": 1.7041,
+        "direction_deg": 209.6
+      },
+      "current": {
+        "u_m_s": -0.6665,
+        "v_m_s": -0.3792,
+        "speed_m_s": 0.7668,
+        "direction_deg": 209.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T12:35:00Z",
+      "centroid": {
+        "lat": 11.82388,
+        "lon": 93.04944
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.7,
+      "wind": {
+        "u_m_s": -1.4806,
+        "v_m_s": -0.8411,
+        "speed_m_s": 1.7028,
+        "direction_deg": 209.6
+      },
+      "current": {
+        "u_m_s": -0.6663,
+        "v_m_s": -0.3785,
+        "speed_m_s": 0.7663,
+        "direction_deg": 209.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T12:50:00Z",
+      "centroid": {
+        "lat": 11.82167,
+        "lon": 93.04573
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.55,
+      "wind": {
+        "u_m_s": -1.4799,
+        "v_m_s": -0.8395,
+        "speed_m_s": 1.7014,
+        "direction_deg": 209.6
+      },
+      "current": {
+        "u_m_s": -0.666,
+        "v_m_s": -0.3778,
+        "speed_m_s": 0.7656,
+        "direction_deg": 209.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T13:05:00Z",
+      "centroid": {
+        "lat": 11.82001,
+        "lon": 93.04258
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.4,
+      "wind": {
+        "u_m_s": -1.4794,
+        "v_m_s": -0.838,
+        "speed_m_s": 1.7003,
+        "direction_deg": 209.5
+      },
+      "current": {
+        "u_m_s": -0.6657,
+        "v_m_s": -0.3771,
+        "speed_m_s": 0.7651,
+        "direction_deg": 209.5
+      }
+    },
+    {
+      "timestamp": "2026-08-25T13:20:00Z",
+      "centroid": {
+        "lat": 11.81852,
+        "lon": 93.03961
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.25,
+      "wind": {
+        "u_m_s": -1.4789,
+        "v_m_s": -0.8366,
+        "speed_m_s": 1.6992,
+        "direction_deg": 209.5
+      },
+      "current": {
+        "u_m_s": -0.6655,
+        "v_m_s": -0.3765,
+        "speed_m_s": 0.7646,
+        "direction_deg": 209.5
+      }
+    },
+    {
+      "timestamp": "2026-08-25T13:35:00Z",
+      "centroid": {
+        "lat": 11.81653,
+        "lon": 93.03614
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 13.1,
+      "wind": {
+        "u_m_s": -1.4784,
+        "v_m_s": -0.835,
+        "speed_m_s": 1.6979,
+        "direction_deg": 209.5
+      },
+      "current": {
+        "u_m_s": -0.6653,
+        "v_m_s": -0.3758,
+        "speed_m_s": 0.764,
+        "direction_deg": 209.5
+      }
+    },
+    {
+      "timestamp": "2026-08-25T13:50:00Z",
+      "centroid": {
+        "lat": 11.81493,
+        "lon": 93.03306
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.95,
+      "wind": {
+        "u_m_s": -1.4779,
+        "v_m_s": -0.8336,
+        "speed_m_s": 1.6968,
+        "direction_deg": 209.4
+      },
+      "current": {
+        "u_m_s": -0.6651,
+        "v_m_s": -0.3751,
+        "speed_m_s": 0.7635,
+        "direction_deg": 209.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T14:05:00Z",
+      "centroid": {
+        "lat": 11.81302,
+        "lon": 93.02966
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.8,
+      "wind": {
+        "u_m_s": -1.4774,
+        "v_m_s": -0.832,
+        "speed_m_s": 1.6956,
+        "direction_deg": 209.4
+      },
+      "current": {
+        "u_m_s": -0.6648,
+        "v_m_s": -0.3744,
+        "speed_m_s": 0.763,
+        "direction_deg": 209.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T14:20:00Z",
+      "centroid": {
+        "lat": 11.81078,
+        "lon": 93.02594
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.65,
+      "wind": {
+        "u_m_s": -1.4769,
+        "v_m_s": -0.8302,
+        "speed_m_s": 1.6942,
+        "direction_deg": 209.3
+      },
+      "current": {
+        "u_m_s": -0.6646,
+        "v_m_s": -0.3736,
+        "speed_m_s": 0.7624,
+        "direction_deg": 209.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T14:35:00Z",
+      "centroid": {
+        "lat": 11.80879,
+        "lon": 93.02247
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.5,
+      "wind": {
+        "u_m_s": -1.4764,
+        "v_m_s": -0.8286,
+        "speed_m_s": 1.693,
+        "direction_deg": 209.3
+      },
+      "current": {
+        "u_m_s": -0.6644,
+        "v_m_s": -0.3729,
+        "speed_m_s": 0.7619,
+        "direction_deg": 209.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T14:50:00Z",
+      "centroid": {
+        "lat": 11.80671,
+        "lon": 93.01891
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.35,
+      "wind": {
+        "u_m_s": -1.476,
+        "v_m_s": -0.8269,
+        "speed_m_s": 1.6918,
+        "direction_deg": 209.3
+      },
+      "current": {
+        "u_m_s": -0.6642,
+        "v_m_s": -0.3721,
+        "speed_m_s": 0.7613,
+        "direction_deg": 209.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T15:05:00Z",
+      "centroid": {
+        "lat": 11.80469,
+        "lon": 93.01542
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.2,
+      "wind": {
+        "u_m_s": -1.4755,
+        "v_m_s": -0.8253,
+        "speed_m_s": 1.6906,
+        "direction_deg": 209.2
+      },
+      "current": {
+        "u_m_s": -0.664,
+        "v_m_s": -0.3714,
+        "speed_m_s": 0.7608,
+        "direction_deg": 209.2
+      }
+    },
+    {
+      "timestamp": "2026-08-25T15:20:00Z",
+      "centroid": {
+        "lat": 11.80292,
+        "lon": 93.01218
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 12.05,
+      "wind": {
+        "u_m_s": -1.4752,
+        "v_m_s": -0.8237,
+        "speed_m_s": 1.6896,
+        "direction_deg": 209.2
+      },
+      "current": {
+        "u_m_s": -0.6638,
+        "v_m_s": -0.3707,
+        "speed_m_s": 0.7603,
+        "direction_deg": 209.2
+      }
+    },
+    {
+      "timestamp": "2026-08-25T15:35:00Z",
+      "centroid": {
+        "lat": 11.80086,
+        "lon": 93.00865
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.9,
+      "wind": {
+        "u_m_s": -1.4748,
+        "v_m_s": -0.822,
+        "speed_m_s": 1.6884,
+        "direction_deg": 209.1
+      },
+      "current": {
+        "u_m_s": -0.6636,
+        "v_m_s": -0.3699,
+        "speed_m_s": 0.7598,
+        "direction_deg": 209.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T15:50:00Z",
+      "centroid": {
+        "lat": 11.79863,
+        "lon": 93.00496
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.75,
+      "wind": {
+        "u_m_s": -1.4744,
+        "v_m_s": -0.8203,
+        "speed_m_s": 1.6872,
+        "direction_deg": 209.1
+      },
+      "current": {
+        "u_m_s": -0.6635,
+        "v_m_s": -0.3691,
+        "speed_m_s": 0.7592,
+        "direction_deg": 209.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T16:05:00Z",
+      "centroid": {
+        "lat": 11.79647,
+        "lon": 93.00134
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.6,
+      "wind": {
+        "u_m_s": -1.474,
+        "v_m_s": -0.8186,
+        "speed_m_s": 1.6861,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.6633,
+        "v_m_s": -0.3683,
+        "speed_m_s": 0.7587,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T16:20:00Z",
+      "centroid": {
+        "lat": 11.79442,
+        "lon": 92.99783
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.45,
+      "wind": {
+        "u_m_s": -1.4737,
+        "v_m_s": -0.8169,
+        "speed_m_s": 1.685,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.6632,
+        "v_m_s": -0.3676,
+        "speed_m_s": 0.7582,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T16:35:00Z",
+      "centroid": {
+        "lat": 11.79207,
+        "lon": 92.99401
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.3,
+      "wind": {
+        "u_m_s": -1.4734,
+        "v_m_s": -0.8151,
+        "speed_m_s": 1.6838,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.663,
+        "v_m_s": -0.3668,
+        "speed_m_s": 0.7577,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T16:50:00Z",
+      "centroid": {
+        "lat": 11.78971,
+        "lon": 92.99019
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.15,
+      "wind": {
+        "u_m_s": -1.4731,
+        "v_m_s": -0.8133,
+        "speed_m_s": 1.6827,
+        "direction_deg": 208.9
+      },
+      "current": {
+        "u_m_s": -0.6629,
+        "v_m_s": -0.366,
+        "speed_m_s": 0.7572,
+        "direction_deg": 208.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T17:05:00Z",
+      "centroid": {
+        "lat": 11.78809,
+        "lon": 92.98714
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 11.0,
+      "wind": {
+        "u_m_s": -1.4729,
+        "v_m_s": -0.8118,
+        "speed_m_s": 1.6818,
+        "direction_deg": 208.9
+      },
+      "current": {
+        "u_m_s": -0.6628,
+        "v_m_s": -0.3653,
+        "speed_m_s": 0.7568,
+        "direction_deg": 208.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T17:20:00Z",
+      "centroid": {
+        "lat": 11.78649,
+        "lon": 92.98409
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.85,
+      "wind": {
+        "u_m_s": -1.4727,
+        "v_m_s": -0.8104,
+        "speed_m_s": 1.681,
+        "direction_deg": 208.8
+      },
+      "current": {
+        "u_m_s": -0.6627,
+        "v_m_s": -0.3647,
+        "speed_m_s": 0.7564,
+        "direction_deg": 208.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T17:35:00Z",
+      "centroid": {
+        "lat": 11.78466,
+        "lon": 92.98082
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.7,
+      "wind": {
+        "u_m_s": -1.4725,
+        "v_m_s": -0.8088,
+        "speed_m_s": 1.6801,
+        "direction_deg": 208.8
+      },
+      "current": {
+        "u_m_s": -0.6626,
+        "v_m_s": -0.364,
+        "speed_m_s": 0.756,
+        "direction_deg": 208.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T17:50:00Z",
+      "centroid": {
+        "lat": 11.78246,
+        "lon": 92.97717
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.55,
+      "wind": {
+        "u_m_s": -1.4724,
+        "v_m_s": -0.8071,
+        "speed_m_s": 1.6791,
+        "direction_deg": 208.7
+      },
+      "current": {
+        "u_m_s": -0.6626,
+        "v_m_s": -0.3632,
+        "speed_m_s": 0.7556,
+        "direction_deg": 208.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T18:05:00Z",
+      "centroid": {
+        "lat": 11.78048,
+        "lon": 92.97375
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.4,
+      "wind": {
+        "u_m_s": -1.4722,
+        "v_m_s": -0.8055,
+        "speed_m_s": 1.6782,
+        "direction_deg": 208.7
+      },
+      "current": {
+        "u_m_s": -0.6625,
+        "v_m_s": -0.3625,
+        "speed_m_s": 0.7552,
+        "direction_deg": 208.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T18:20:00Z",
+      "centroid": {
+        "lat": 11.77829,
+        "lon": 92.97012
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.25,
+      "wind": {
+        "u_m_s": -1.4721,
+        "v_m_s": -0.8039,
+        "speed_m_s": 1.6773,
+        "direction_deg": 208.6
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.3617,
+        "speed_m_s": 0.7548,
+        "direction_deg": 208.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T18:35:00Z",
+      "centroid": {
+        "lat": 11.7763,
+        "lon": 92.96669
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 10.1,
+      "wind": {
+        "u_m_s": -1.472,
+        "v_m_s": -0.8023,
+        "speed_m_s": 1.6764,
+        "direction_deg": 208.6
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.361,
+        "speed_m_s": 0.7544,
+        "direction_deg": 208.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T18:50:00Z",
+      "centroid": {
+        "lat": 11.77409,
+        "lon": 92.96304
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.95,
+      "wind": {
+        "u_m_s": -1.4719,
+        "v_m_s": -0.8006,
+        "speed_m_s": 1.6756,
+        "direction_deg": 208.5
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.3603,
+        "speed_m_s": 0.754,
+        "direction_deg": 208.5
+      }
+    },
+    {
+      "timestamp": "2026-08-25T19:05:00Z",
+      "centroid": {
+        "lat": 11.77199,
+        "lon": 92.9595
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.8,
+      "wind": {
+        "u_m_s": -1.4718,
+        "v_m_s": -0.799,
+        "speed_m_s": 1.6747,
+        "direction_deg": 208.5
+      },
+      "current": {
+        "u_m_s": -0.6623,
+        "v_m_s": -0.3596,
+        "speed_m_s": 0.7536,
+        "direction_deg": 208.5
+      }
+    },
+    {
+      "timestamp": "2026-08-25T19:20:00Z",
+      "centroid": {
+        "lat": 11.76976,
+        "lon": 92.95583
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.65,
+      "wind": {
+        "u_m_s": -1.4718,
+        "v_m_s": -0.7974,
+        "speed_m_s": 1.6739,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6623,
+        "v_m_s": -0.3588,
+        "speed_m_s": 0.7533,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T19:35:00Z",
+      "centroid": {
+        "lat": 11.76773,
+        "lon": 92.95237
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.5,
+      "wind": {
+        "u_m_s": -1.4718,
+        "v_m_s": -0.7959,
+        "speed_m_s": 1.6732,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6623,
+        "v_m_s": -0.3581,
+        "speed_m_s": 0.7529,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T19:50:00Z",
+      "centroid": {
+        "lat": 11.7662,
+        "lon": 92.94942
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.35,
+      "wind": {
+        "u_m_s": -1.4718,
+        "v_m_s": -0.7946,
+        "speed_m_s": 1.6726,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6623,
+        "v_m_s": -0.3576,
+        "speed_m_s": 0.7527,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T20:05:00Z",
+      "centroid": {
+        "lat": 11.76406,
+        "lon": 92.94585
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.2,
+      "wind": {
+        "u_m_s": -1.4719,
+        "v_m_s": -0.793,
+        "speed_m_s": 1.6719,
+        "direction_deg": 208.3
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.3569,
+        "speed_m_s": 0.7524,
+        "direction_deg": 208.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T20:20:00Z",
+      "centroid": {
+        "lat": 11.762,
+        "lon": 92.94236
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 9.05,
+      "wind": {
+        "u_m_s": -1.472,
+        "v_m_s": -0.7915,
+        "speed_m_s": 1.6713,
+        "direction_deg": 208.3
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.3562,
+        "speed_m_s": 0.7521,
+        "direction_deg": 208.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T20:35:00Z",
+      "centroid": {
+        "lat": 11.76,
+        "lon": 92.93894
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.9,
+      "wind": {
+        "u_m_s": -1.4721,
+        "v_m_s": -0.7901,
+        "speed_m_s": 1.6707,
+        "direction_deg": 208.2
+      },
+      "current": {
+        "u_m_s": -0.6624,
+        "v_m_s": -0.3555,
+        "speed_m_s": 0.7518,
+        "direction_deg": 208.2
+      }
+    },
+    {
+      "timestamp": "2026-08-25T20:50:00Z",
+      "centroid": {
+        "lat": 11.75834,
+        "lon": 92.93586
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.75,
+      "wind": {
+        "u_m_s": -1.4722,
+        "v_m_s": -0.7888,
+        "speed_m_s": 1.6702,
+        "direction_deg": 208.2
+      },
+      "current": {
+        "u_m_s": -0.6625,
+        "v_m_s": -0.355,
+        "speed_m_s": 0.7516,
+        "direction_deg": 208.2
+      }
+    },
+    {
+      "timestamp": "2026-08-25T21:05:00Z",
+      "centroid": {
+        "lat": 11.75673,
+        "lon": 92.93283
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.6,
+      "wind": {
+        "u_m_s": -1.4723,
+        "v_m_s": -0.7875,
+        "speed_m_s": 1.6697,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.6625,
+        "v_m_s": -0.3544,
+        "speed_m_s": 0.7514,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T21:20:00Z",
+      "centroid": {
+        "lat": 11.75523,
+        "lon": 92.92992
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.45,
+      "wind": {
+        "u_m_s": -1.4725,
+        "v_m_s": -0.7864,
+        "speed_m_s": 1.6693,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.6626,
+        "v_m_s": -0.3539,
+        "speed_m_s": 0.7512,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T21:35:00Z",
+      "centroid": {
+        "lat": 11.7529,
+        "lon": 92.92616
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.3,
+      "wind": {
+        "u_m_s": -1.4727,
+        "v_m_s": -0.7849,
+        "speed_m_s": 1.6688,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.6627,
+        "v_m_s": -0.3532,
+        "speed_m_s": 0.7509,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T21:50:00Z",
+      "centroid": {
+        "lat": 11.7511,
+        "lon": 92.92294
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.15,
+      "wind": {
+        "u_m_s": -1.4729,
+        "v_m_s": -0.7836,
+        "speed_m_s": 1.6684,
+        "direction_deg": 208.0
+      },
+      "current": {
+        "u_m_s": -0.6628,
+        "v_m_s": -0.3526,
+        "speed_m_s": 0.7508,
+        "direction_deg": 208.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T22:05:00Z",
+      "centroid": {
+        "lat": 11.74937,
+        "lon": 92.9198
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 8.0,
+      "wind": {
+        "u_m_s": -1.4731,
+        "v_m_s": -0.7824,
+        "speed_m_s": 1.668,
+        "direction_deg": 208.0
+      },
+      "current": {
+        "u_m_s": -0.6629,
+        "v_m_s": -0.3521,
+        "speed_m_s": 0.7506,
+        "direction_deg": 208.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T22:20:00Z",
+      "centroid": {
+        "lat": 11.7478,
+        "lon": 92.91681
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.85,
+      "wind": {
+        "u_m_s": -1.4733,
+        "v_m_s": -0.7813,
+        "speed_m_s": 1.6677,
+        "direction_deg": 207.9
+      },
+      "current": {
+        "u_m_s": -0.663,
+        "v_m_s": -0.3516,
+        "speed_m_s": 0.7505,
+        "direction_deg": 207.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T22:35:00Z",
+      "centroid": {
+        "lat": 11.74588,
+        "lon": 92.91348
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.7,
+      "wind": {
+        "u_m_s": -1.4736,
+        "v_m_s": -0.78,
+        "speed_m_s": 1.6673,
+        "direction_deg": 207.9
+      },
+      "current": {
+        "u_m_s": -0.6631,
+        "v_m_s": -0.351,
+        "speed_m_s": 0.7503,
+        "direction_deg": 207.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T22:50:00Z",
+      "centroid": {
+        "lat": 11.74399,
+        "lon": 92.91017
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.55,
+      "wind": {
+        "u_m_s": -1.4739,
+        "v_m_s": -0.7788,
+        "speed_m_s": 1.667,
+        "direction_deg": 207.9
+      },
+      "current": {
+        "u_m_s": -0.6633,
+        "v_m_s": -0.3505,
+        "speed_m_s": 0.7502,
+        "direction_deg": 207.9
+      }
+    },
+    {
+      "timestamp": "2026-08-25T23:05:00Z",
+      "centroid": {
+        "lat": 11.74189,
+        "lon": 92.90664
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.4,
+      "wind": {
+        "u_m_s": -1.4742,
+        "v_m_s": -0.7776,
+        "speed_m_s": 1.6667,
+        "direction_deg": 207.8
+      },
+      "current": {
+        "u_m_s": -0.6634,
+        "v_m_s": -0.3499,
+        "speed_m_s": 0.75,
+        "direction_deg": 207.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T23:20:00Z",
+      "centroid": {
+        "lat": 11.74002,
+        "lon": 92.90335
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.25,
+      "wind": {
+        "u_m_s": -1.4746,
+        "v_m_s": -0.7765,
+        "speed_m_s": 1.6665,
+        "direction_deg": 207.8
+      },
+      "current": {
+        "u_m_s": -0.6636,
+        "v_m_s": -0.3494,
+        "speed_m_s": 0.7499,
+        "direction_deg": 207.8
+      }
+    },
+    {
+      "timestamp": "2026-08-25T23:35:00Z",
+      "centroid": {
+        "lat": 11.73799,
+        "lon": 92.89991
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 7.1,
+      "wind": {
+        "u_m_s": -1.4749,
+        "v_m_s": -0.7753,
+        "speed_m_s": 1.6663,
+        "direction_deg": 207.7
+      },
+      "current": {
+        "u_m_s": -0.6637,
+        "v_m_s": -0.3489,
+        "speed_m_s": 0.7498,
+        "direction_deg": 207.7
+      }
+    },
+    {
+      "timestamp": "2026-08-25T23:50:00Z",
+      "centroid": {
+        "lat": 11.73625,
+        "lon": 92.89675
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.95,
+      "wind": {
+        "u_m_s": -1.4753,
+        "v_m_s": -0.7743,
+        "speed_m_s": 1.6661,
+        "direction_deg": 207.7
+      },
+      "current": {
+        "u_m_s": -0.6639,
+        "v_m_s": -0.3484,
+        "speed_m_s": 0.7498,
+        "direction_deg": 207.7
+      }
+    },
+    {
+      "timestamp": "2026-08-26T00:05:00Z",
+      "centroid": {
+        "lat": 11.73478,
+        "lon": 92.89387
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.8,
+      "wind": {
+        "u_m_s": -1.4532,
+        "v_m_s": -0.8109,
+        "speed_m_s": 1.6641,
+        "direction_deg": 209.2
+      },
+      "current": {
+        "u_m_s": -0.6539,
+        "v_m_s": -0.3649,
+        "speed_m_s": 0.7489,
+        "direction_deg": 209.2
+      }
+    },
+    {
+      "timestamp": "2026-08-26T00:20:00Z",
+      "centroid": {
+        "lat": 11.73266,
+        "lon": 92.89033
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.65,
+      "wind": {
+        "u_m_s": -1.4525,
+        "v_m_s": -0.8094,
+        "speed_m_s": 1.6628,
+        "direction_deg": 209.1
+      },
+      "current": {
+        "u_m_s": -0.6536,
+        "v_m_s": -0.3642,
+        "speed_m_s": 0.7483,
+        "direction_deg": 209.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T00:35:00Z",
+      "centroid": {
+        "lat": 11.73097,
+        "lon": 92.88722
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.5,
+      "wind": {
+        "u_m_s": -1.452,
+        "v_m_s": -0.808,
+        "speed_m_s": 1.6616,
+        "direction_deg": 209.1
+      },
+      "current": {
+        "u_m_s": -0.6534,
+        "v_m_s": -0.3636,
+        "speed_m_s": 0.7477,
+        "direction_deg": 209.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T00:50:00Z",
+      "centroid": {
+        "lat": 11.72894,
+        "lon": 92.88377
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.35,
+      "wind": {
+        "u_m_s": -1.4513,
+        "v_m_s": -0.8065,
+        "speed_m_s": 1.6603,
+        "direction_deg": 209.1
+      },
+      "current": {
+        "u_m_s": -0.6531,
+        "v_m_s": -0.3629,
+        "speed_m_s": 0.7471,
+        "direction_deg": 209.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T01:05:00Z",
+      "centroid": {
+        "lat": 11.7269,
+        "lon": 92.88031
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.2,
+      "wind": {
+        "u_m_s": -1.4507,
+        "v_m_s": -0.805,
+        "speed_m_s": 1.659,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.6528,
+        "v_m_s": -0.3622,
+        "speed_m_s": 0.7466,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-26T01:20:00Z",
+      "centroid": {
+        "lat": 11.72488,
+        "lon": 92.87686
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 6.05,
+      "wind": {
+        "u_m_s": -1.4501,
+        "v_m_s": -0.8034,
+        "speed_m_s": 1.6578,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.6525,
+        "v_m_s": -0.3615,
+        "speed_m_s": 0.746,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-26T01:35:00Z",
+      "centroid": {
+        "lat": 11.7234,
+        "lon": 92.87397
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.9,
+      "wind": {
+        "u_m_s": -1.4497,
+        "v_m_s": -0.802,
+        "speed_m_s": 1.6567,
+        "direction_deg": 209.0
+      },
+      "current": {
+        "u_m_s": -0.6524,
+        "v_m_s": -0.3609,
+        "speed_m_s": 0.7455,
+        "direction_deg": 209.0
+      }
+    },
+    {
+      "timestamp": "2026-08-26T01:50:00Z",
+      "centroid": {
+        "lat": 11.72163,
+        "lon": 92.87079
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.75,
+      "wind": {
+        "u_m_s": -1.4492,
+        "v_m_s": -0.8005,
+        "speed_m_s": 1.6556,
+        "direction_deg": 208.9
+      },
+      "current": {
+        "u_m_s": -0.6521,
+        "v_m_s": -0.3602,
+        "speed_m_s": 0.745,
+        "direction_deg": 208.9
+      }
+    },
+    {
+      "timestamp": "2026-08-26T02:05:00Z",
+      "centroid": {
+        "lat": 11.71976,
+        "lon": 92.86749
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.6,
+      "wind": {
+        "u_m_s": -1.4487,
+        "v_m_s": -0.799,
+        "speed_m_s": 1.6544,
+        "direction_deg": 208.9
+      },
+      "current": {
+        "u_m_s": -0.6519,
+        "v_m_s": -0.3596,
+        "speed_m_s": 0.7445,
+        "direction_deg": 208.9
+      }
+    },
+    {
+      "timestamp": "2026-08-26T02:20:00Z",
+      "centroid": {
+        "lat": 11.71823,
+        "lon": 92.86454
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.45,
+      "wind": {
+        "u_m_s": -1.4483,
+        "v_m_s": -0.7976,
+        "speed_m_s": 1.6534,
+        "direction_deg": 208.8
+      },
+      "current": {
+        "u_m_s": -0.6518,
+        "v_m_s": -0.3589,
+        "speed_m_s": 0.744,
+        "direction_deg": 208.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T02:35:00Z",
+      "centroid": {
+        "lat": 11.71597,
+        "lon": 92.86085
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.3,
+      "wind": {
+        "u_m_s": -1.4477,
+        "v_m_s": -0.796,
+        "speed_m_s": 1.6521,
+        "direction_deg": 208.8
+      },
+      "current": {
+        "u_m_s": -0.6515,
+        "v_m_s": -0.3582,
+        "speed_m_s": 0.7435,
+        "direction_deg": 208.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T02:50:00Z",
+      "centroid": {
+        "lat": 11.71388,
+        "lon": 92.85734
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.15,
+      "wind": {
+        "u_m_s": -1.4472,
+        "v_m_s": -0.7944,
+        "speed_m_s": 1.6509,
+        "direction_deg": 208.8
+      },
+      "current": {
+        "u_m_s": -0.6512,
+        "v_m_s": -0.3575,
+        "speed_m_s": 0.7429,
+        "direction_deg": 208.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T03:05:00Z",
+      "centroid": {
+        "lat": 11.71158,
+        "lon": 92.8536
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 5.0,
+      "wind": {
+        "u_m_s": -1.4466,
+        "v_m_s": -0.7928,
+        "speed_m_s": 1.6496,
+        "direction_deg": 208.7
+      },
+      "current": {
+        "u_m_s": -0.651,
+        "v_m_s": -0.3567,
+        "speed_m_s": 0.7423,
+        "direction_deg": 208.7
+      }
+    },
+    {
+      "timestamp": "2026-08-26T03:20:00Z",
+      "centroid": {
+        "lat": 11.70959,
+        "lon": 92.85018
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.85,
+      "wind": {
+        "u_m_s": -1.4462,
+        "v_m_s": -0.7912,
+        "speed_m_s": 1.6485,
+        "direction_deg": 208.7
+      },
+      "current": {
+        "u_m_s": -0.6508,
+        "v_m_s": -0.356,
+        "speed_m_s": 0.7418,
+        "direction_deg": 208.7
+      }
+    },
+    {
+      "timestamp": "2026-08-26T03:35:00Z",
+      "centroid": {
+        "lat": 11.70763,
+        "lon": 92.8468
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.7,
+      "wind": {
+        "u_m_s": -1.4458,
+        "v_m_s": -0.7897,
+        "speed_m_s": 1.6474,
+        "direction_deg": 208.6
+      },
+      "current": {
+        "u_m_s": -0.6506,
+        "v_m_s": -0.3553,
+        "speed_m_s": 0.7413,
+        "direction_deg": 208.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T03:50:00Z",
+      "centroid": {
+        "lat": 11.70601,
+        "lon": 92.84376
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.55,
+      "wind": {
+        "u_m_s": -1.4455,
+        "v_m_s": -0.7882,
+        "speed_m_s": 1.6464,
+        "direction_deg": 208.6
+      },
+      "current": {
+        "u_m_s": -0.6505,
+        "v_m_s": -0.3547,
+        "speed_m_s": 0.7409,
+        "direction_deg": 208.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T04:05:00Z",
+      "centroid": {
+        "lat": 11.70382,
+        "lon": 92.84012
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.4,
+      "wind": {
+        "u_m_s": -1.445,
+        "v_m_s": -0.7866,
+        "speed_m_s": 1.6452,
+        "direction_deg": 208.6
+      },
+      "current": {
+        "u_m_s": -0.6503,
+        "v_m_s": -0.354,
+        "speed_m_s": 0.7404,
+        "direction_deg": 208.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T04:20:00Z",
+      "centroid": {
+        "lat": 11.70159,
+        "lon": 92.83646
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.25,
+      "wind": {
+        "u_m_s": -1.4446,
+        "v_m_s": -0.785,
+        "speed_m_s": 1.6441,
+        "direction_deg": 208.5
+      },
+      "current": {
+        "u_m_s": -0.6501,
+        "v_m_s": -0.3532,
+        "speed_m_s": 0.7398,
+        "direction_deg": 208.5
+      }
+    },
+    {
+      "timestamp": "2026-08-26T04:35:00Z",
+      "centroid": {
+        "lat": 11.69967,
+        "lon": 92.83311
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 4.1,
+      "wind": {
+        "u_m_s": -1.4443,
+        "v_m_s": -0.7834,
+        "speed_m_s": 1.6431,
+        "direction_deg": 208.5
+      },
+      "current": {
+        "u_m_s": -0.6499,
+        "v_m_s": -0.3526,
+        "speed_m_s": 0.7394,
+        "direction_deg": 208.5
+      }
+    },
+    {
+      "timestamp": "2026-08-26T04:50:00Z",
+      "centroid": {
+        "lat": 11.69765,
+        "lon": 92.82966
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.95,
+      "wind": {
+        "u_m_s": -1.4439,
+        "v_m_s": -0.7819,
+        "speed_m_s": 1.642,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6498,
+        "v_m_s": -0.3519,
+        "speed_m_s": 0.7389,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-26T05:05:00Z",
+      "centroid": {
+        "lat": 11.69586,
+        "lon": 92.82643
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.8,
+      "wind": {
+        "u_m_s": -1.4437,
+        "v_m_s": -0.7804,
+        "speed_m_s": 1.6411,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6497,
+        "v_m_s": -0.3512,
+        "speed_m_s": 0.7385,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-26T05:20:00Z",
+      "centroid": {
+        "lat": 11.69381,
+        "lon": 92.82293
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.65,
+      "wind": {
+        "u_m_s": -1.4434,
+        "v_m_s": -0.7789,
+        "speed_m_s": 1.6401,
+        "direction_deg": 208.4
+      },
+      "current": {
+        "u_m_s": -0.6495,
+        "v_m_s": -0.3505,
+        "speed_m_s": 0.7381,
+        "direction_deg": 208.4
+      }
+    },
+    {
+      "timestamp": "2026-08-26T05:35:00Z",
+      "centroid": {
+        "lat": 11.69239,
+        "lon": 92.82009
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.5,
+      "wind": {
+        "u_m_s": -1.4433,
+        "v_m_s": -0.7774,
+        "speed_m_s": 1.6394,
+        "direction_deg": 208.3
+      },
+      "current": {
+        "u_m_s": -0.6495,
+        "v_m_s": -0.3499,
+        "speed_m_s": 0.7377,
+        "direction_deg": 208.3
+      }
+    },
+    {
+      "timestamp": "2026-08-26T05:50:00Z",
+      "centroid": {
+        "lat": 11.69034,
+        "lon": 92.8166
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.35,
+      "wind": {
+        "u_m_s": -1.4431,
+        "v_m_s": -0.7759,
+        "speed_m_s": 1.6384,
+        "direction_deg": 208.3
+      },
+      "current": {
+        "u_m_s": -0.6494,
+        "v_m_s": -0.3492,
+        "speed_m_s": 0.7373,
+        "direction_deg": 208.3
+      }
+    },
+    {
+      "timestamp": "2026-08-26T06:05:00Z",
+      "centroid": {
+        "lat": 11.68825,
+        "lon": 92.81306
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.2,
+      "wind": {
+        "u_m_s": -1.4428,
+        "v_m_s": -0.7744,
+        "speed_m_s": 1.6375,
+        "direction_deg": 208.2
+      },
+      "current": {
+        "u_m_s": -0.6493,
+        "v_m_s": -0.3485,
+        "speed_m_s": 0.7369,
+        "direction_deg": 208.2
+      }
+    },
+    {
+      "timestamp": "2026-08-26T06:20:00Z",
+      "centroid": {
+        "lat": 11.6862,
+        "lon": 92.80956
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 3.05,
+      "wind": {
+        "u_m_s": -1.4426,
+        "v_m_s": -0.7729,
+        "speed_m_s": 1.6366,
+        "direction_deg": 208.2
+      },
+      "current": {
+        "u_m_s": -0.6492,
+        "v_m_s": -0.3478,
+        "speed_m_s": 0.7365,
+        "direction_deg": 208.2
+      }
+    },
+    {
+      "timestamp": "2026-08-26T06:35:00Z",
+      "centroid": {
+        "lat": 11.68414,
+        "lon": 92.80605
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.9,
+      "wind": {
+        "u_m_s": -1.4424,
+        "v_m_s": -0.7714,
+        "speed_m_s": 1.6357,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.6491,
+        "v_m_s": -0.3471,
+        "speed_m_s": 0.7361,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T06:50:00Z",
+      "centroid": {
+        "lat": 11.68215,
+        "lon": 92.80262
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.75,
+      "wind": {
+        "u_m_s": -1.4423,
+        "v_m_s": -0.7699,
+        "speed_m_s": 1.6349,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.3465,
+        "speed_m_s": 0.7357,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T07:05:00Z",
+      "centroid": {
+        "lat": 11.6799,
+        "lon": 92.79891
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.6,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.7684,
+        "speed_m_s": 1.6341,
+        "direction_deg": 208.1
+      },
+      "current": {
+        "u_m_s": -0.6489,
+        "v_m_s": -0.3458,
+        "speed_m_s": 0.7353,
+        "direction_deg": 208.1
+      }
+    },
+    {
+      "timestamp": "2026-08-26T07:20:00Z",
+      "centroid": {
+        "lat": 11.67836,
+        "lon": 92.79593
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.45,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.7671,
+        "speed_m_s": 1.6334,
+        "direction_deg": 208.0
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.3452,
+        "speed_m_s": 0.735,
+        "direction_deg": 208.0
+      }
+    },
+    {
+      "timestamp": "2026-08-26T07:35:00Z",
+      "centroid": {
+        "lat": 11.67668,
+        "lon": 92.7928
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.3,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.7657,
+        "speed_m_s": 1.6328,
+        "direction_deg": 208.0
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.3446,
+        "speed_m_s": 0.7348,
+        "direction_deg": 208.0
+      }
+    },
+    {
+      "timestamp": "2026-08-26T07:50:00Z",
+      "centroid": {
+        "lat": 11.67503,
+        "lon": 92.78969
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.15,
+      "wind": {
+        "u_m_s": -1.4422,
+        "v_m_s": -0.7644,
+        "speed_m_s": 1.6322,
+        "direction_deg": 207.9
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.344,
+        "speed_m_s": 0.7345,
+        "direction_deg": 207.9
+      }
+    },
+    {
+      "timestamp": "2026-08-26T08:05:00Z",
+      "centroid": {
+        "lat": 11.67287,
+        "lon": 92.78607
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 2.0,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.763,
+        "speed_m_s": 1.6315,
+        "direction_deg": 207.9
+      },
+      "current": {
+        "u_m_s": -0.6489,
+        "v_m_s": -0.3433,
+        "speed_m_s": 0.7342,
+        "direction_deg": 207.9
+      }
+    },
+    {
+      "timestamp": "2026-08-26T08:20:00Z",
+      "centroid": {
+        "lat": 11.67078,
+        "lon": 92.78251
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.85,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.7616,
+        "speed_m_s": 1.6308,
+        "direction_deg": 207.8
+      },
+      "current": {
+        "u_m_s": -0.6489,
+        "v_m_s": -0.3427,
+        "speed_m_s": 0.7339,
+        "direction_deg": 207.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T08:35:00Z",
+      "centroid": {
+        "lat": 11.66902,
+        "lon": 92.7793
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.7,
+      "wind": {
+        "u_m_s": -1.4421,
+        "v_m_s": -0.7603,
+        "speed_m_s": 1.6303,
+        "direction_deg": 207.8
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.3421,
+        "speed_m_s": 0.7336,
+        "direction_deg": 207.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T08:50:00Z",
+      "centroid": {
+        "lat": 11.66746,
+        "lon": 92.77628
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.55,
+      "wind": {
+        "u_m_s": -1.4423,
+        "v_m_s": -0.759,
+        "speed_m_s": 1.6298,
+        "direction_deg": 207.8
+      },
+      "current": {
+        "u_m_s": -0.649,
+        "v_m_s": -0.3416,
+        "speed_m_s": 0.7334,
+        "direction_deg": 207.8
+      }
+    },
+    {
+      "timestamp": "2026-08-26T09:05:00Z",
+      "centroid": {
+        "lat": 11.66573,
+        "lon": 92.77308
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.4,
+      "wind": {
+        "u_m_s": -1.4424,
+        "v_m_s": -0.7578,
+        "speed_m_s": 1.6293,
+        "direction_deg": 207.7
+      },
+      "current": {
+        "u_m_s": -0.6491,
+        "v_m_s": -0.341,
+        "speed_m_s": 0.7332,
+        "direction_deg": 207.7
+      }
+    },
+    {
+      "timestamp": "2026-08-26T09:20:00Z",
+      "centroid": {
+        "lat": 11.66369,
+        "lon": 92.76957
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.25,
+      "wind": {
+        "u_m_s": -1.4425,
+        "v_m_s": -0.7565,
+        "speed_m_s": 1.6288,
+        "direction_deg": 207.7
+      },
+      "current": {
+        "u_m_s": -0.6491,
+        "v_m_s": -0.3404,
+        "speed_m_s": 0.733,
+        "direction_deg": 207.7
+      }
+    },
+    {
+      "timestamp": "2026-08-26T09:35:00Z",
+      "centroid": {
+        "lat": 11.66183,
+        "lon": 92.76623
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 1.1,
+      "wind": {
+        "u_m_s": -1.4426,
+        "v_m_s": -0.7552,
+        "speed_m_s": 1.6284,
+        "direction_deg": 207.6
+      },
+      "current": {
+        "u_m_s": -0.6492,
+        "v_m_s": -0.3399,
+        "speed_m_s": 0.7328,
+        "direction_deg": 207.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T09:50:00Z",
+      "centroid": {
+        "lat": 11.65993,
+        "lon": 92.76286
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 0.95,
+      "wind": {
+        "u_m_s": -1.4428,
+        "v_m_s": -0.754,
+        "speed_m_s": 1.6279,
+        "direction_deg": 207.6
+      },
+      "current": {
+        "u_m_s": -0.6493,
+        "v_m_s": -0.3393,
+        "speed_m_s": 0.7326,
+        "direction_deg": 207.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T10:05:00Z",
+      "centroid": {
+        "lat": 11.65809,
+        "lon": 92.75954
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 0.8,
+      "wind": {
+        "u_m_s": -1.443,
+        "v_m_s": -0.7528,
+        "speed_m_s": 1.6275,
+        "direction_deg": 207.6
+      },
+      "current": {
+        "u_m_s": -0.6493,
+        "v_m_s": -0.3388,
+        "speed_m_s": 0.7324,
+        "direction_deg": 207.6
+      }
+    },
+    {
+      "timestamp": "2026-08-26T10:20:00Z",
+      "centroid": {
+        "lat": 11.65631,
+        "lon": 92.75628
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 0.65,
+      "wind": {
+        "u_m_s": -1.4432,
+        "v_m_s": -0.7517,
+        "speed_m_s": 1.6272,
+        "direction_deg": 207.5
+      },
+      "current": {
+        "u_m_s": -0.6494,
+        "v_m_s": -0.3382,
+        "speed_m_s": 0.7322,
+        "direction_deg": 207.5
+      }
+    },
+    {
+      "timestamp": "2026-08-26T10:35:00Z",
+      "centroid": {
+        "lat": 11.65409,
+        "lon": 92.75257
+      },
+      "polygon": "M 170,140 L 192,132 L 208,146 L 200,164 L 180,166 L 166,154 Z",
+      "uncertainty_radius_km": 0.5,
+      "wind": {
+        "u_m_s": -1.4434,
+        "v_m_s": -0.7505,
+        "speed_m_s": 1.6268,
+        "direction_deg": 207.5
+      },
+      "current": {
+        "u_m_s": -0.6495,
+        "v_m_s": -0.3377,
+        "speed_m_s": 0.7321,
+        "direction_deg": 207.5
+      }
+    }
+  ]
+}

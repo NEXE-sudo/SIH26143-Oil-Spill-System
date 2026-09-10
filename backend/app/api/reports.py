@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 
-from backend.app.schemas.report import InvestigationReportPayload
-from backend.app.services.report import generate_investigation_report
+from app.data import mock_investigations as store
+from app.schemas.report import InvestigationReportPayload
+from app.services.report import generate_investigation_report
 
-router = APIRouter(prefix="/reports", tags=["Reports"])
+router = APIRouter(prefix="/api/reports", tags=["Reports"])
 
 @router.post("/generate-pdf", response_class=Response, summary="Generate Investigation Report PDF")
 async def create_investigation_report(payload: InvestigationReportPayload):
@@ -26,8 +27,11 @@ async def create_investigation_report(payload: InvestigationReportPayload):
 @router.get("/{investigation_id}", summary="Get Investigation Report")
 async def get_investigation_report(investigation_id: str):
     """
-    Retrieve a previously generated investigation report by ID.
-    Currently returns 501 Not Implemented until database session is configured.
+    Return the investigation record used by the demo UI.
+    This keeps the report endpoint aligned with the frontend contract while
+    the real persistence layer is still being added.
     """
-    # TODO: Fetch from SQLite DB using ReportModel
-    raise HTTPException(status_code=501, detail="Database persistence not yet configured")
+    record = store.get_by_id(investigation_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail=f"Report {investigation_id} not found")
+    return record

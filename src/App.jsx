@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+samimport React, { useEffect, useState } from "react";
 import AuthPage from "./AuthPage.jsx";
 import LandingPage from "./LandingPage.jsx";
 import InvestigationDetail from "./InvestigationDetail.jsx";
