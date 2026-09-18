@@ -8,6 +8,7 @@ import {
   TileLayer,
   ZoomControl,
   useMap,
+  useMapEvents,
 } from "react-leaflet";
 import {
   driftHindcast,
@@ -459,6 +460,53 @@ function MapCenterSync({ center }) {
   return null;
 }
 
+function MapMagnifier({ value, onChange }) {
+  const map = useMap();
+
+  useMapEvents({
+    zoomend: () => {
+      onChange(map.getZoom());
+    },
+  });
+
+  useEffect(() => {
+    const currentZoom = map.getZoom();
+    if (currentZoom !== value) {
+      map.setZoom(value, { animate: true });
+    }
+  }, [map, value]);
+
+  const setZoom = (delta) => {
+    const next = Math.min(16, Math.max(5, value + delta));
+    onChange(next);
+    map.setZoom(next, { animate: true });
+  };
+
+  return (
+    <div className="map-magnifier" aria-label="Map magnifier control">
+      <div className="magnifier-lens">
+        <button
+          type="button"
+          className="magnifier-button plus"
+          aria-label="Zoom in"
+          onClick={() => setZoom(1)}
+        >
+          +
+        </button>
+        <button
+          type="button"
+          className="magnifier-button minus"
+          aria-label="Zoom out"
+          onClick={() => setZoom(-1)}
+        >
+          −
+        </button>
+      </div>
+      <div className="magnifier-handle" />
+    </div>
+  );
+}
+
 function MapPanel({
   inv,
   layers,
@@ -472,6 +520,7 @@ function MapPanel({
   const [playDirection, setPlayDirection] = useState(1);
   const [pulse, setPulse] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
+  const [mapZoom, setMapZoom] = useState(10);
 
   useEffect(() => {
     if (!drift || !drift.track || drift.track.length === 0) return;
@@ -557,13 +606,14 @@ function MapPanel({
       <div className="map-frame">
         <MapContainer
           center={activeCenter}
-          zoom={10}
+          zoom={mapZoom}
           scrollWheelZoom={false}
           zoomControl={false}
           className="live-map"
         >
           <ZoomControl position="bottomright" />
           <MapCenterSync center={activeCenter} />
+          <MapMagnifier value={mapZoom} onChange={setMapZoom} />
           <TileLayer
             attribution="Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
