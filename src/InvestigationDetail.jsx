@@ -4,6 +4,7 @@ import {
   CircleMarker,
   GeoJSON,
   MapContainer,
+  Polygon,
   Polyline,
   TileLayer,
   ZoomControl,
@@ -36,17 +37,39 @@ const LAYERS = [
   { id: "drift", label: "Drift hindcast", default: true },
 ];
 
-// The spill polygon / vessel tracks are hand-authored SVG-space art, not
-// derived from real lat/lon — they're sized to sit nicely in the 400x300
-// map regardless of the investigation's real-world location. To place
-// anything with a *real* lat/lon (source estimate, drift track) on the
-// same map, we anchor a local projection at the spill's own centroid: the
-// spill's real lat/lon centroid maps to its polygon's SVG centroid, and
-// everything else is placed by real-world offset (km) from there, via an
-// equirectangular approximation (accurate enough at this scale) times a
-// fixed px-per-km zoom.
+// The spill polygon comes from the backend in one of two shapes:
+//  - real detections (services/segmentation.py): a GeoJSON Polygon string,
+//    already in real lon/lat — render it directly, no projection needed.
+//  - legacy mock investigations (backend/app/data/mock_investigations.py):
+//    a hand-authored SVG-space path string ("M 152,128 L 202,108 ..."),
+//    sized to sit nicely in a 400x300 box regardless of the investigation's
+//    real-world location. Vessel tracks in the mock data are in the same
+//    SVG space, so both the polygon and any SVG-space tracks are placed by
+//    anchoring the local projection at the spill's own centroid: the
+//    spill's real lat/lon centroid maps to its polygon's SVG centroid, and
+//    everything else is placed by real-world offset (km) from there, via
+//    an equirectangular approximation (accurate enough at this scale)
+//    times a fixed px-per-km zoom.
 const KM_PER_DEG_LAT = 111.0;
 const PX_PER_KM = 3.2; // tuned so a ~24h drift track stays on-map
+
+function isGeoJSONPolygon(polygonStr) {
+  return typeof polygonStr === "string" && polygonStr.trim().startsWith("{");
+}
+
+// Parses a GeoJSON Polygon string into [[lat, lon], ...] for Leaflet's
+// <Polygon>/<GeoJSON> components. Returns [] on anything malformed rather
+// than throwing, since this runs on every render.
+function geoJSONPolygonToLatLngs(polygonStr) {
+  try {
+    const geo = JSON.parse(polygonStr);
+    const ring = geo?.coordinates?.[0];
+    if (!Array.isArray(ring)) return [];
+    return ring.map(([lon, lat]) => [lat, lon]);
+  } catch {
+    return [];
+  }
+}
 
 function polygonCentroid(pathD) {
   const nums = (pathD.match(/-?[\d.]+/g) || []).map(Number);
@@ -74,7 +97,15 @@ function makeMapProjection(inv) {
   };
 }
 
+// Projects a vessel's SVG-space track onto real lat/lon, anchored at the
+// spill polygon's SVG centroid. Only meaningful when the spill polygon
+// itself is still in SVG space (legacy mock data) — a real, GeoJSON spill
+// polygon has no SVG centroid to anchor against, so this intentionally
+// returns [] in that case rather than silently misplacing tracks using
+// numbers scraped out of GeoJSON coordinate text.
 function svgPathToLatLngs(pathD, inv) {
+  if (isGeoJSONPolygon(inv.spill.polygon)) return [];
+
   const nums = (pathD.match(/-?\d*\.?\d+/g) || []).map(Number);
   if (nums.length < 2) return [];
 
@@ -601,6 +632,16 @@ function MapPanel({
     inv.spill.area_km2 * 2400 + pulse * 250,
   );
 
+  // The real detection pipeline (services/segmentation.py) returns the
+  // spill footprint as a GeoJSON polygon in true lon/lat, which we can
+  // render on the map as-is. Investigations still on the mock dataset
+  // carry a hand-authored SVG-space path instead — project that through
+  // the spill-centroid anchor (see svgPathToLatLngs) so old records keep
+  // rendering *something* until they're backed by a real detection.
+  const spillPolygonLatLngs = isGeoJSONPolygon(inv.spill.polygon)
+    ? geoJSONPolygonToLatLngs(inv.spill.polygon)
+    : svgPathToLatLngs(inv.spill.polygon, inv);
+
   return (
     <section className="map-panel">
       <div className="map-frame">
@@ -629,6 +670,18 @@ function MapPanel({
                 fillOpacity: focusMode ? 0.12 : 0.06,
                 weight: 1,
                 dashArray: "8 8",
+              }}
+            />
+          )}
+
+          {layers.polygon && spillPolygonLatLngs.length > 2 && (
+            <Polygon
+              positions={spillPolygonLatLngs}
+              pathOptions={{
+                color: "#fb7185",
+                fillColor: "#fb7185",
+                fillOpacity: focusMode ? 0.5 : 0.3,
+                weight: 1.6,
               }}
             />
           )}
