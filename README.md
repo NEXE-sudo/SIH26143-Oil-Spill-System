@@ -74,7 +74,23 @@ Output goes to `dist/`.
 
 ## Next steps toward the real system
 
-- Swap the mock SVG map for MapLibre GL JS or Leaflet with real
-  Sentinel-1 tile overlays and GeoJSON spill polygons (roadmap §58–59).
+- `POST /api/spills/detect` now runs a real pipeline — adaptive local-contrast
+  detection (`services/detection.py`) → mask vectorization
+  (`services/segmentation.py`) → area/perimeter/centroid/axis geometry
+  (`services/geometry.py`) — against a preprocessed scene, instead of
+  returning mock data. It's untrained thresholding, not a classifier: it
+  finds real dark patches but can't yet tell oil from a look-alike (see the
+  module docstrings). `GET /api/spills/{id}` and `/geometry` still read the
+  mock store — those serve already-detected investigations by id, not fresh
+  detections.
+- `SpillGeometry.polygon` is now a GeoJSON `Polygon` string in real lon/lat,
+  not a fixed-viewBox SVG path — so **swap the mock SVG map for MapLibre GL
+  JS or Leaflet with real Sentinel-1 tile overlays and this GeoJSON polygon**
+  (roadmap §58–59). `leaflet`/`react-leaflet` are already in `package.json`
+  but unused — `InvestigationDetail.jsx`'s SVG map is the piece to replace.
+- Next model step: fine-tune a U-Net (pretrained encoder) on the Krestenitis
+  et al. SAR oil-spill dataset to replace the thresholding in
+  `detection.py` — same `(mask, confidence)` return contract, so
+  `segmentation.py`/`geometry.py` don't need to change.
 - Add an investigations list / new-investigation flow (roadmap §58
   suggested pages: `/investigations`, `/investigations/new`).
