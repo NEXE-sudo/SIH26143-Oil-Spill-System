@@ -686,18 +686,21 @@ function MapPanel({
             />
           )}
 
-          {layers.oil && currentDriftStep?.polygon?.startsWith("{") && (
-            <GeoJSON
-              key={`${currentDriftStep.timestamp}-${currentDriftStep.polygon}`}
-              data={JSON.parse(currentDriftStep.polygon)}
-              style={{
-                color: "#fb7185",
-                fillColor: "#fb7185",
-                fillOpacity: focusMode ? 0.54 : 0.34,
-                weight: 1.4,
-              }}
-            />
-          )}
+          {/* Drifted GeoJSON layer disabled for cleaner spill-only visualization */}
+          {false &&
+            layers.oil &&
+            currentDriftStep?.polygon?.startsWith("{") && (
+              <GeoJSON
+                key={`${currentDriftStep.timestamp}-${currentDriftStep.polygon}`}
+                data={JSON.parse(currentDriftStep.polygon)}
+                style={{
+                  color: "#fb7185",
+                  fillColor: "#fb7185",
+                  fillOpacity: focusMode ? 0.54 : 0.34,
+                  weight: 1.4,
+                }}
+              />
+            )}
 
           {layers.source && (
             <CircleMarker

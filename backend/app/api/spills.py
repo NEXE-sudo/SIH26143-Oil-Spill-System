@@ -29,7 +29,7 @@ from app.services import detection, geometry, segmentation
 
 router = APIRouter(prefix="/api/spills", tags=["spills"])
 
-_REPO_ROOT = Path(__file__).resolve().parents[4]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_SCENES_DIR = _REPO_ROOT / "data" / "raw"
 
 
